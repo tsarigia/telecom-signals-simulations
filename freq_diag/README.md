@@ -75,11 +75,30 @@ while the phase spectrum encodes **time delay** and **symmetry** information.
 
 ---
 
-## ⚙️ MATLAB Implementation (Provided by Professor)
+## ⚙️ MATLAB Implementation 
 
-The MATLAB code provided by the professor computes the **Fourier Series coefficients** numerically using integration.
+### 📍 MATLAB Solution with FFT (Applied Version):Main Script (`sol1.m`)
+ 
+This script analyze the frequency behavior of the given time-domain signal by determining:the **Magnitude Spectrum** and the **Phase Spectrum** by computing the **continuous Fourier Transform numerically** using FFT.
 
-### 🔹 Main Script (`Illustrative_Problem_1_2.m`)
+**Steps:**
+1. Defines \( x(t) \) piecewise over time.  
+2. Uses a fine sampling step `dt` and applies a **Fast Fourier Transform (FFT)**.  
+3. Centers the frequency axis with `fftshift`.  
+4. Extracts and smooths the **magnitude** and **phase spectra**.  
+5. Plots:
+   - The time-domain signal \( x(t) \)
+   - The magnitude spectrum \( |X(j\omega)| \)
+   - The phase spectrum \( \angle X(j\omega) \)
+
+**Observations:**
+- The **magnitude spectrum** decays with frequency → low-frequency dominant.  
+- The **phase spectrum**, after unwrapping, is **smooth** and nearly symmetric, confirming signal evenness.  
+- High-resolution FFT (`N = 2^15`) ensures precise and clear results.
+
+The rest 4 MATLAB code files(help files) computes the **Fourier Series coefficients** numerically using integration.
+
+### 🔹 Script (`ip_01_02.m`)
 
 This script:
 - Defines the input function (`lambda`)
