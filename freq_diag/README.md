@@ -99,7 +99,9 @@ This script analyze the frequency behavior of the given time-domain signal by de
 - After unwrapping, is **smooth** and nearly symmetric, confirming signal evenness.  
 - High-resolution FFT (`N = 2^15`) ensures precise and clear results.
 
-![MATLAB Phase Spectrum](https://github.com/tsarigia//assets/matlab-phase.png)
+![Magnitude spec](./magnspec.png)
+![phase spec](./contphase.png)
+
 ---
 The rest 4 MATLAB code files(help files) computes the **Fourier Series coefficients** numerically using integration.
 
@@ -168,6 +170,9 @@ This signal is **even (symmetric)**, meaning:
 - The Fourier coefficients are **real-valued**
 - The phase is either **0** or **π**
 
+![Discrete magnitude spec](./discrmagn.png)
+![Discrete phase spec](./discrphase.png)
+
 ---
 
 ## 📊 MATLAB Results
@@ -199,6 +204,8 @@ A continuous Fourier Transform approximation was implemented using **NumPy’s F
    - Normalized magnitude \( |X(f)| \)
    - Phase \( \angle X(f) \)
 6. Plot the time-domain signal and both spectra.
+
+![graphs](./pygraphs.png)
 
 ---
 
