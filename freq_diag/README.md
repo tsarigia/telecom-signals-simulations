@@ -92,10 +92,14 @@ This script analyze the frequency behavior of the given time-domain signal by de
    - The phase spectrum \( \angle X(j\omega) \)
 
 **Observations:**
-- The **magnitude spectrum** decays with frequency → low-frequency dominant.  
-- The **phase spectrum**, after unwrapping, is **smooth** and nearly symmetric, confirming signal evenness.  
+- The **magnitude spectrum** shows: How strong the different frequency components are that make up your signal.
+- We see peaks at specific frequencies corresponding to the "segments" of the signal. Since the signal is time-limited (non-zero only within certainintervals),its spectrum will be continuous and spread out.
+- In the **phase spectrum** around low frequencies, the phase is nearly 0° — confirming even symmetry.
+- At higher frequencies, as magnitude gets small, the phase becomes noisy — because where ∣X(jω)∣≈0, the phase is essentially meaningless.
+- After unwrapping, is **smooth** and nearly symmetric, confirming signal evenness.  
 - High-resolution FFT (`N = 2^15`) ensures precise and clear results.
 
+---
 The rest 4 MATLAB code files(help files) computes the **Fourier Series coefficients** numerically using integration.
 
 ### 🔹 Script (`ip_01_02.m`)
@@ -201,8 +205,9 @@ A continuous Fourier Transform approximation was implemented using **NumPy’s F
 
 - The **time-domain plot** correctly shows the composed shape of the signal.
 - The **magnitude spectrum** displays smooth decay, indicating that higher frequencies carry less energy — typical for continuous piecewise signals.
-- The **phase spectrum** appears **sawtooth-shaped**, which is normal due to **phase wrapping** between \(-\pi\) and \(\pi\).  
-  This can be corrected with `np.unwrap()` if a smooth, continuous phase curve is desired.
+- The **phase spectrum** rapid Phase Changes: the phase plot shows sharp transitions and periodic jumps. This is typical when the signal is not perfectly symmetric or contains discontinuities in its definition. These jumps often occur near frequencies where the amplitude approaches zero, due to numerical instability in np.angle.
+- The phase is wrapped in the interval [-π,π], so when the true phase exceeds this range, it "jumps" by ±2π.
+- The signal has asymmetric segments (e.g., the constant 1.5 from 𝑡=2 to 𝑡=3), which introduces non-zero phase components.
 
 ---
 
