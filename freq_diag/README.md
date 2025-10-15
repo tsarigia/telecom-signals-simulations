@@ -30,9 +30,9 @@ $$
 
 1. Compute the **Fourier Transform** of the signal:
 
-   $$
-   X(f) = \int_{-\infty}^{\infty} x(t) e^{-j 2\pi f t} \, dt
-   $$
+  $$
+X(f) = \int_{-\infty}^{\infty} x(t) e^{-j 2\pi f t} \, dt
+$$
 
 2. Plot:
    - The **magnitude spectrum** \( |X(f)| \)
@@ -60,15 +60,15 @@ $$
 
 - **Magnitude:**
 
-  $$
-  |X(f)| = \sqrt{ \Re\{X(f)\}^2 + \Im\{X(f)\}^2 }
-  $$
+$$
+|X(f)| = \sqrt{ \Re\{X(f)\}^2 + \Im\{X(f)\}^2 }
+$$
 
 - **Phase:**
 
-  $$
-  \angle X(f) = \tan^{-1}\left( \frac{\Im\{X(f)\}}{\Re\{X(f)\}} \right)
-  $$
+$$
+\angle X(f) = \tan^{-1}\left( \frac{\Im\{X(f)\}}{\Re\{X(f)\}} \right)
+$$
 
 The magnitude spectrum describes how **energy** is distributed across frequencies,  
 while the phase spectrum encodes **time delay** and **symmetry** information.
