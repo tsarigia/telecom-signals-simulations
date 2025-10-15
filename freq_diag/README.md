@@ -99,6 +99,7 @@ This script analyze the frequency behavior of the given time-domain signal by de
 - After unwrapping, is **smooth** and nearly symmetric, confirming signal evenness.  
 - High-resolution FFT (`N = 2^15`) ensures precise and clear results.
 
+![MATLAB Phase Spectrum](https://github.com/tsarigia//assets/matlab-phase.png)
 ---
 The rest 4 MATLAB code files(help files) computes the **Fourier Series coefficients** numerically using integration.
 
