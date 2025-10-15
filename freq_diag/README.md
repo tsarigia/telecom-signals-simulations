@@ -92,7 +92,7 @@ This script analyze the frequency behavior of the given time-domain signal by de
    - The phase spectrum \( \angle X(j\omega) \)
 
 **Observations:**
-- The **magnitude spectrum** shows: How strong the different frequency components are that make up your signal.
+- The **magnitude spectrum** shows: How strong the different frequency components are that make up the signal.
 - We see peaks at specific frequencies corresponding to the "segments" of the signal. Since the signal is time-limited (non-zero only within certainintervals),its spectrum will be continuous and spread out.
 - In the **phase spectrum** around low frequencies, the phase is nearly 0° — confirming even symmetry.
 - At higher frequencies, as magnitude gets small, the phase becomes noisy — because where ∣X(jω)∣≈0, the phase is essentially meaningless.
