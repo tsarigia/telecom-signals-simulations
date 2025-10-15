@@ -94,8 +94,9 @@ This script analyze the frequency behavior of the given time-domain signal by de
 **Observations:**
 - The **magnitude spectrum** shows: How strong the different frequency components are that make up the signal.
 - We see peaks at specific frequencies corresponding to the "segments" of the signal. Since the signal is time-limited (non-zero only within certainintervals),its spectrum will be continuous and spread out.
-- In the **phase spectrum** around low frequencies, the phase is nearly 0° — confirming even symmetry.
-- At higher frequencies, as magnitude gets small, the phase becomes noisy — because where ∣X(jω)∣≈0, the phase is essentially meaningless.
+- In the **phase spectrum** signal introduces frequency-dependent phase shifts, meaning each frequency component is delayed differently.
+- The phase curve gradually drops as frequency increases. This is typical for signals that are not symmetric and contain delays or shifts in time.
+- The smooth downward slope reflects time asymmetry—especially from the segment 𝑥(𝑡)=1.5 for 𝑡∈[2,3).
 - After unwrapping, is **smooth** and nearly symmetric, confirming signal evenness.  
 - High-resolution FFT (`N = 2^15`) ensures precise and clear results.
 
