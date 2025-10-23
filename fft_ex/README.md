@@ -21,7 +21,7 @@ $$
 Thus, the time-domain signal $x(t)$ is:
 
 $$
-x(t) = A \, \Pi\*\left(\frac{t}{T}\right) =
+x(t) = A \*\Pi\\left(\frac{t}{T}\right) =
 \begin{cases}
 A, & |t| \le \frac{T}{2} \\
 0, & |t| > \frac{T}{2}
