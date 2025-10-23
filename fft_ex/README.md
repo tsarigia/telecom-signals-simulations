@@ -68,9 +68,9 @@ The accompanying Python script implements the calculation of the spectrum using 
     * The Phase Spectrum $\angle X(f)$.
 
 ---
-## 1. Spectrum Analysis (Figure 2.13)
+## 1. Spectrum Analysis 
 
-### A. Magnitude Spectrum $|X(f)|$ (Figure 2.13b)
+### A. Magnitude Spectrum $|X(f)|$ 
 
 The magnitude spectrum is $|X(f)| = |\mathrm{sinc}(fT)|$.
 
@@ -78,7 +78,7 @@ The magnitude spectrum is $|X(f)| = |\mathrm{sinc}(fT)|$.
 * **Zero Crossings (Nulls):** The spectrum crosses zero at discrete frequencies $\mathbf{f = k/T}$, where $k$ is any non-zero integer ($\mathbf{k = \pm 1, \pm 2, \pm 3, \dots}$).
 * **Time-Bandwidth Reciprocity:** The energy of the signal is concentrated mainly within the main lobe $\left[-\frac{1}{T}, \frac{1}{T}\right]$. A smaller pulse duration ($T$) leads to a larger spectrum spread (wider bandwidth).
 
-### B. Phase Spectrum $\theta(f)$ (Figure 2.13c)
+### B. Phase Spectrum $\theta(f)$ 
 
 Since $X(f)$ is a **real-valued function** (the FT of a real and even signal), its phase $\theta(f)$ is restricted to $0$ or $\mathbf{\pm\pi}$.
 
