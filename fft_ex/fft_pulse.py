@@ -6,7 +6,7 @@ A = 1.0  # Πλάτος
 T = 2.0  # Διάρκεια
 T_anal = T 
 
-# Κανονικοποιημένη sinc του βιβλίου: sinc(x) = sin(pi*x) / (pi*x)
+# Κανονικοποιημένη sinc: sinc(x) = sin(pi*x) / (pi*x)
 def normalized_sinc(x):
     """sinc(x) = sin(pi*x) / (pi*x), χειρίζεται την περίπτωση x=0."""
     return np.where(x == 0, 1.0, np.sin(np.pi * x) / (np.pi * x))
@@ -31,7 +31,7 @@ arg_sinc = f_shifted * T_anal
 X_anal_AT1 = 1.0 * normalized_sinc(arg_sinc)
 
 
-# --- 3. Δημιουργία Αναλυτικού Φάσματος Φάσης (Όπως η εικόνα του βιβλίου) ---
+# --- 3. Δημιουργία Αναλυτικού Φάσματος Φάσης ---
 phase_anal_book = np.zeros_like(f_shifted)
 sinc_negative = X_anal_AT1 < 0
 
@@ -49,10 +49,10 @@ phase_anal_book = np.where(
 )
 
 
-# --- 4. Σχεδίαση των Διαγραμμάτων (Σχήμα 2.13) ---
+# --- 4. Σχεδίαση των Διαγραμμάτων ---
 plt.figure(figsize=(10, 12))
 
-# 4.1. Ορθογώνιος Παλμός x(t) - (Σχήμα 2.13α)
+# 4.1. Ορθογώνιος Παλμός x(t) 
 plt.subplot(3, 1, 1)
 plt.plot(t, x_t, 'b-', linewidth=2)
 plt.title(f'$\\mathbf{{(a)}}$ Ορθογώνιος Παλμός $x(t)$', fontsize=14, weight='bold')
@@ -70,7 +70,7 @@ xticks_pos = xticks_values[np.abs(xticks_values) <= 5/T]
 xticks_labels = ['-2/T', '-1/T', '1/T', '2/T']
 
 
-# 4.2. Φάσμα Πλάτους $|X(f)|$ - (Σχήμα 2.13β)
+# 4.2. Φάσμα Πλάτους $|X(f)|$ 
 plt.subplot(3, 1, 2)
 plt.plot(f_shifted, np.abs(X_anal_AT1), 'r-', label='Αναλυτική Λύση $|X(f)| = |\\mathrm{sinc}(fT)|$', linewidth=2)
 # Επικάλυψη FFT (Normalized)
@@ -83,13 +83,12 @@ plt.grid(True, linestyle='--', alpha=0.6)
 plt.xlim(-5/T, 5/T)
 plt.ylim(0, 1.1)
 
-# ΕΦΑΡΜΟΓΗ ΤΗΣ ΔΙΟΡΘΩΣΗΣ ΣΗΜΑΝΣΗΣ: Αφαίρεση του 0/T
 plt.xticks(xticks_pos, xticks_labels)
 plt.axvline(x=0, color='gray', linestyle='-', linewidth=0.8)
 plt.legend()
 
 
-# 4.3. Φάσμα Φάσης $\theta(f)$ - (Σχήμα 2.13γ)
+# 4.3. Φάσμα Φάσης $\theta(f)$ 
 plt.subplot(3, 1, 3)
 plt.step(f_shifted, phase_anal_book, 'g-', linewidth=2, label='Αναλυτική Φάση (Όπως στο Σχήμα 2.13γ)')
 plt.plot(f_shifted, np.angle(X_anal_AT1), 'r--', linewidth=1, alpha=0.5, label='Τυπική Περιττή Φάση')
@@ -100,7 +99,7 @@ plt.ylabel('$\\theta(f)$ (rad)')
 plt.yticks([-np.pi, 0, np.pi], ['$-\\pi$', '0', '$\\pi$'])
 plt.grid(True, linestyle='--', alpha=0.6)
 plt.xlim(-5/T, 5/T)
-# ΕΦΑΡΜΟΓΗ ΤΗΣ ΔΙΟΡΘΩΣΗΣ ΣΗΜΑΝΣΗΣ: Αφαίρεση του 0/T
+
 plt.xticks(xticks_pos, xticks_labels)
 plt.axvline(x=0, color='gray', linestyle='-', linewidth=0.8)
 plt.legend(loc='lower left')
