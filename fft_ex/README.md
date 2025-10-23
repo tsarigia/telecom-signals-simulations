@@ -85,8 +85,6 @@ Since $X(f)$ is a **real-valued function** (the FT of a real and even signal), i
 * **Phase Logic:** The phase changes by $\mathbf{\pm\pi}$ every time the function $X(f)$ transitions from a positive to a negative value.
 * **Negative Regions:** This sign change occurs in the intervals where the secondary lobes are negative:
     $$\mathbf{\frac{n}{T} < |f| < \frac{n+1}{T}, \quad n \text{ is a positive odd integer}}$$
-* **Figure Convention:** The specific convention used in the figure for the secondary (negative) lobes is:
-    $$\mathbf{\theta(f) = \begin{cases} 0, & \text{if } X(f) > 0 \\ -\pi, & \text{if } X(f) < 0 \text{ and } f > 0 \\ +\pi, & \text{if } X(f) < 0 \text{ and } f < 0 \end{cases}}$$
   ---
 ## 🚀 Requirements and Installation
 
