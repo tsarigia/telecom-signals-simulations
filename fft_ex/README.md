@@ -68,7 +68,26 @@ The accompanying Python script implements the calculation of the spectrum using 
     * The Phase Spectrum $\angle X(f)$.
 
 ---
+## 1. Spectrum Analysis (Figure 2.13)
 
+### A. Magnitude Spectrum $|X(f)|$ (Figure 2.13b)
+
+The magnitude spectrum is $|X(f)| = |\mathrm{sinc}(fT)|$.
+
+* **Maximum:** The maximum value is **1.0** at $\mathbf{f=0}$.
+* **Zero Crossings (Nulls):** The spectrum crosses zero at discrete frequencies $\mathbf{f = k/T}$, where $k$ is any non-zero integer ($\mathbf{k = \pm 1, \pm 2, \pm 3, \dots}$).
+* **Time-Bandwidth Reciprocity:** The energy of the signal is concentrated mainly within the main lobe $\left[-\frac{1}{T}, \frac{1}{T}\right]$. A smaller pulse duration ($T$) leads to a larger spectrum spread (wider bandwidth).
+
+### B. Phase Spectrum $\theta(f)$ (Figure 2.13c)
+
+Since $X(f)$ is a **real-valued function** (the FT of a real and even signal), its phase $\theta(f)$ is restricted to $0$ or $\mathbf{\pm\pi}$.
+
+* **Phase Logic:** The phase changes by $\mathbf{\pm\pi}$ every time the function $X(f)$ transitions from a positive to a negative value.
+* **Negative Regions:** This sign change occurs in the intervals where the secondary lobes are negative:
+    $$\mathbf{\frac{n}{T} < |f| < \frac{n+1}{T}, \quad n \text{ is a positive odd integer}}$$
+* **Figure Convention:** The specific convention used in the figure for the secondary (negative) lobes is:
+    $$\mathbf{\theta(f) = \begin{cases} 0, & \text{if } X(f) > 0 \\ -\pi, & \text{if } X(f) < 0 \text{ and } f > 0 \\ +\pi, & \text{if } X(f) < 0 \text{ and } f < 0 \end{cases}}$$
+  ---
 ## 🚀 Requirements and Installation
 
 To run the Python script for the numerical computation, you need the following libraries:
