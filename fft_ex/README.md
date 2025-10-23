@@ -33,13 +33,13 @@ $$
 The Fourier Transform $X(f)$ is computed using the integral definition:
 
 $$
-X(f) = \int_{-\infty}^{+\infty} x(t) \, e^{-j 2\pi f t} \, dt
+X(f) = \int_{-\infty}^{+\infty} x(t) \ e^{-j 2\pi f t} \, dt
 $$
 
 Applying this to $x(t)$ and restricting the integration limits:
 
 $$
-X(f) = \int_{-T/2}^{T/2} A \, e^{-j 2\pi f t} \, dt
+X(f) = \int_{-T/2}^{T/2} A \ e^{-j 2\pi f t} \, dt
 $$
 
 Solving the integral yields:
