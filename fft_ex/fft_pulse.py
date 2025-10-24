@@ -1,108 +1,95 @@
 import numpy as np
 import matplotlib.pyplot as plt
 
-# --- 1. Ορισμός Παραμέτρων και Συναρτήσεων ---
-A = 1.0  # Πλάτος
-T = 2.0  # Διάρκεια
-T_anal = T 
+# --- 1. Ορισμός Παραμέτρων ---
+A = 1.0     # Πλάτος παλμού
+T = 2.0     # Διάρκεια παλμού
+Fs = 200.0  # Ρυθμός δειγματοληψίας (Hz)
+Ts = 1.0 / Fs
+N = 4096    # Πλήθος δειγμάτων (μεγάλο για καλή ανάλυση)
 
-# Κανονικοποιημένη sinc: sinc(x) = sin(pi*x) / (pi*x)
+# --- 2. Δημιουργία Χρονικού Άξονα και Παλμού ---
+t = np.linspace(-N/(2*Fs), N/(2*Fs), N, endpoint=False)
+x_t = np.where(np.abs(t) <= T/2, A, 0.0)  # Ορθογώνιος παλμός, np.where(condition, value_if_true, value_if_false)
+
+# --- 3. Υπολογισμός FFT ---
+X_fft = np.fft.fft(x_t)#πίνακας N μιγαδικών τιμών — κάθε στοιχείο αντιστοιχεί σε ένα “συντελεστή” του μετασχηματισμού Fourier, δηλαδή σε κάποια συχνότητα.
+
+#Όμως, το np.fft.fft δεν μας λέει ποιες συχνότητες είναι αυτές.Απλώς δίνει τα N αποτελέσματα του διακριτού μετασχηματισμού, σε σειρά.
+f = np.fft.fftfreq(N, d=Ts)#πίνακα συχνοτήτων που αντιστοιχεί σε κάθε δείγμα του FFT.
+#Όταν σχεδιάζουμε το φάσμα στο πεδίο της συχνότητας, χρειάζεται να ξέρεις ποια συχνότητα αντιστοιχεί σε κάθε τιμή του FFT.
+
+X_shift = np.fft.fftshift(X_fft)#συμμετρικά γύρω από το 0
+f_shift = np.fft.fftshift(f)
+X_fft_scaled = X_shift * Ts  # Κλιμάκωση για σωστό πλάτος
+
+# --- 4. Θεωρητική Αναλυτική Μορφή ---ελέγχουμε αν το FFT συμφωνεί με τη θεωρία εφοσον γνωριζουμε και την θεωρητικη λυση
 def normalized_sinc(x):
-    """sinc(x) = sin(pi*x) / (pi*x), χειρίζεται την περίπτωση x=0."""
+    """Ορισμός κανονικοποιημένης sinc: sin(pi*x)/(pi*x)"""
     return np.where(x == 0, 1.0, np.sin(np.pi * x) / (np.pi * x))
 
-# --- 2. FFT Υπολογισμοί ---
-Fs = 100.0   
-Ts = 1.0 / Fs
-N_periods = 10 
-N_samples = int(Fs * N_periods) 
+X_anal = A * T * normalized_sinc(f_shift * T)
 
-t = np.linspace(-N_periods/2, N_periods/2, N_samples, endpoint=False)
-x_t = np.where(np.abs(t) <= T / 2, A, 0.0)
+# --- 5. Αναλυτική Φάση (+π / -π) ---
+phase_anal = np.zeros_like(f_shift)
+mask_neg = X_anal < 0
+phase_anal[(f_shift > 0) & mask_neg] = -np.pi
+phase_anal[(f_shift < 0) & mask_neg] = +np.pi
 
-X_fft = np.fft.fft(x_t)
-f = np.fft.fftfreq(N_samples, d=Ts)
-X_shifted = np.fft.fftshift(X_fft)
-f_shifted = np.fft.fftshift(f)
-X_fft_scaled = X_shifted / Fs
+# --- 6. Φάση FFT (για σύγκριση) ---
+phase_fft = np.angle(X_fft_scaled)
+phase_fft = np.unwrap(np.angle(np.fft.fftshift(X_fft)))
+phase_fft = np.fft.fftshift(phase_fft)
 
-# Αναλυτική Λύση (με τη συνθήκη AT=1)
-arg_sinc = f_shifted * T_anal
-X_anal_AT1 = 1.0 * normalized_sinc(arg_sinc)
+# --- 7. Θέσεις Μηδενισμών (±1/T, ±2/T, ±3/T, ...) ---
+zero_points = np.arange(-5, 6) / T  # μέχρι ±5/T
+zero_points = zero_points[zero_points != 0]
 
-
-# --- 3. Δημιουργία Αναλυτικού Φάσματος Φάσης ---
-phase_anal_book = np.zeros_like(f_shifted)
-sinc_negative = X_anal_AT1 < 0
-
-# Για f > 0: Αν X(f) < 0 (περιττοί λοβοί), τότε φάση = -π
-phase_anal_book = np.where(
-    (f_shifted > 0) & sinc_negative, 
-    -np.pi, 
-    phase_anal_book
-)
-# Για f < 0: Αν X(f) < 0 (περιττοί λοβοί), τότε φάση = +π
-phase_anal_book = np.where(
-    (f_shifted < 0) & sinc_negative, 
-    np.pi, 
-    phase_anal_book
-)
-
-
-# --- 4. Σχεδίαση των Διαγραμμάτων ---
+# --- 8. Σχεδίαση Διαγραμμάτων ---
 plt.figure(figsize=(10, 12))
 
-# 4.1. Ορθογώνιος Παλμός x(t) 
+# (a) Ορθογώνιος Παλμός
 plt.subplot(3, 1, 1)
-plt.plot(t, x_t, 'b-', linewidth=2)
-plt.title(f'$\\mathbf{{(a)}}$ Ορθογώνιος Παλμός $x(t)$', fontsize=14, weight='bold')
-plt.xlabel('$\\mathbf{t}$ (Χρονικός Άξονας)') 
+plt.plot(t, x_t, 'b', linewidth=2)
+plt.title('(α) Ορθογώνιος Παλμός $x(t)$', fontsize=14, weight='bold')
+plt.xlabel('$t$ (Χρόνος)')
 plt.ylabel('$x(t)$')
 plt.grid(True, linestyle='--', alpha=0.6)
-plt.ylim(-0.1, A + 0.1)
-plt.xlim(-T - 1, T + 1)
+plt.ylim(-0.2, A + 0.2)
+plt.xlim(-2*T, 2*T)
 plt.xticks([-T/2, T/2], ['-T/2', 'T/2'])
 
-
-# --- ΔΗΜΙΟΥΡΓΙΑ ΣΗΜΑΝΣΗΣ f ΓΙΑ ΤΙΣ ΕΤΙΚΕΤΕΣ $\pm 1/T, \pm 2/T$ ---
-xticks_values = np.array([-2/T, -1/T, 1/T, 2/T])
-xticks_pos = xticks_values[np.abs(xticks_values) <= 5/T]
-xticks_labels = ['-2/T', '-1/T', '1/T', '2/T']
-
-
-# 4.2. Φάσμα Πλάτους $|X(f)|$ 
+# (b) Φάσμα Πλάτους
 plt.subplot(3, 1, 2)
-plt.plot(f_shifted, np.abs(X_anal_AT1), 'r-', label='Αναλυτική Λύση $|X(f)| = |\\mathrm{sinc}(fT)|$', linewidth=2)
-# Επικάλυψη FFT (Normalized)
-plt.plot(f_shifted, np.abs(X_fft_scaled * (1/ (A*T))), 'b.', markersize=4, alpha=0.5, label='FFT (Normalized)') 
-
-plt.title('$\\mathbf{{(b)}}$ Φάσμα Πλάτους $|X(f)|$ (με $AT=1$)', fontsize=14, weight='bold')
-plt.xlabel('$\\mathbf{f}$ (Άξονας Συχνότητας - Hz)') 
+plt.plot(f_shift, np.abs(X_anal) / (A*T), 'r-', linewidth=2, label='Αναλυτικό |X(f)| / (A·T)')
+plt.plot(f_shift, np.abs(X_fft_scaled) / (A*T), 'b.', alpha=0.5, label='FFT (κανονικοποιημένο)')
+for zp in zero_points:
+    plt.axvline(zp, color='gray', linestyle='--', alpha=0.4, linewidth=0.8)
+plt.title('(β) Φάσμα Πλάτους $|X(f)|$ (με $AT=1$)', fontsize=14, weight='bold')
+plt.xlabel('$f$ (Hz)')
 plt.ylabel('$|X(f)|$')
-plt.grid(True, linestyle='--', alpha=0.6)
 plt.xlim(-5/T, 5/T)
 plt.ylim(0, 1.1)
-
-plt.xticks(xticks_pos, xticks_labels)
-plt.axvline(x=0, color='gray', linestyle='-', linewidth=0.8)
+plt.grid(True, linestyle='--', alpha=0.6)
 plt.legend()
+plt.xticks([-2/T, -1/T, 1/T, 2/T], ['-2/T', '-1/T', '1/T', '2/T'])
+plt.axvline(0, color='gray', linewidth=0.8)
 
-
-# 4.3. Φάσμα Φάσης $\theta(f)$ 
+# (γ) Φάσμα Φάσης
 plt.subplot(3, 1, 3)
-plt.step(f_shifted, phase_anal_book, 'g-', linewidth=2, label='Αναλυτική Φάση (Όπως στο Σχήμα 2.13γ)')
-plt.plot(f_shifted, np.angle(X_anal_AT1), 'r--', linewidth=1, alpha=0.5, label='Τυπική Περιττή Φάση')
-
-plt.title('$\\mathbf{{(\\gamma)}}$ Φάσμα Φάσης $\\theta(f)$', fontsize=14, weight='bold')
-plt.xlabel('$\\mathbf{f}$ (Άξονας Συχνότητας - Hz)') 
+plt.step(f_shift, phase_anal, 'g-', linewidth=2, label='Αναλυτική Φάση (±π)')
+plt.plot(f_shift, np.angle(X_anal), 'r--', linewidth=1, alpha=0.6, label='Περιττή Φάση (από X(f))')
+for zp in zero_points:
+    plt.axvline(zp, color='gray', linestyle='--', alpha=0.4, linewidth=0.8)
+plt.title('(γ) Φάσμα Φάσης $\\theta(f)$', fontsize=14, weight='bold')
+plt.xlabel('$f$ (Hz)')
 plt.ylabel('$\\theta(f)$ (rad)')
 plt.yticks([-np.pi, 0, np.pi], ['$-\\pi$', '0', '$\\pi$'])
-plt.grid(True, linestyle='--', alpha=0.6)
 plt.xlim(-5/T, 5/T)
-
-plt.xticks(xticks_pos, xticks_labels)
-plt.axvline(x=0, color='gray', linestyle='-', linewidth=0.8)
+plt.grid(True, linestyle='--', alpha=0.6)
 plt.legend(loc='lower left')
+plt.xticks([-2/T, -1/T, 1/T, 2/T], ['-2/T', '-1/T', '1/T', '2/T'])
+plt.axvline(0, color='gray', linewidth=0.8)
 
 plt.tight_layout(pad=3.0)
 plt.show()
