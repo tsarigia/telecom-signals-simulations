@@ -1,36 +1,34 @@
-# ------------------- ΕΙΣΑΓΩΓΗ ΒΙΒΛΙΟΘΗΚΩΝ -------------------
+#ΕΙΣΑΓΩΓΗ ΒΙΒΛΙΟΘΗΚΩΝ 
  #Να γίνει σε γραφικό περιβάλλον σε Python ένα προγραμμα που να δέχεται πλάτος σήματος πληφορίας,  πλάτος φέροντος, συχνότητα σήματος πληροφορίας, συχνότητα σήματος πληροφορίας και να εμφανίζει στο πεδίο του χρόνου διάγραμμα του σήματος πληροφορίας, διάγραμμα του φέροντος, του σήματος ΑΜ και του αποδιαμορφωμένου σήματος ΑΜ. 
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg  # Για να ενσωματωθεί το matplotlib στο Tkinter GUI
-import tkinter as tk                     # Για δημιουργία γραφικού περιβάλλοντος (GUI)
-from tkinter import ttk                  # Βελτιωμένα γραφικά στοιχεία για Tkinter
+import tkinter as tk  # Για δημιουργία γραφικού περιβάλλοντος (GUI)
+from tkinter import ttk # Βελτιωμένα γραφικά στοιχεία για Tkinter
 
-# -------------------------------------------------------------
 # ΣΥΝΑΡΤΗΣΗ ΠΟΥ ΕΚΤΕΛΕΙ ΤΟΥΣ ΥΠΟΛΟΓΙΣΜΟΥΣ ΚΑΙ ΤΑ ΓΡΑΦΗΜΑΤΑ
-# -------------------------------------------------------------
 def generate_plot():
-    # ---- Ανάγνωση τιμών από τα πεδία εισαγωγής του GUI ----
+    # Ανάγνωση τιμών από τα πεδία εισαγωγής του GUI 
     Am = float(entry_Am.get())   # Πλάτος σήματος πληροφορίας (π.χ. 0.5)
     fm = float(entry_fm.get())   # Συχνότητα πληροφορίας (π.χ. 20 Hz)
     Ac = float(entry_Ac.get())   # Πλάτος φέροντος σήματος (π.χ. 1)
     fc = float(entry_fc.get())   # Συχνότητα φέροντος (π.χ. 200 Hz)
 
-    # ---- Δημιουργία χρονικού άξονα ----
+    #Δημιουργία χρονικού άξονα 
     # Χρονικό διάστημα 0 έως 0.05 sec (ώστε να φαίνονται πλήρεις κύκλοι)
     # 5000 σημεία -> ομαλό ημίτονο
     t = np.linspace(0, 0.05,10000)
     
     message = Am*np.cos(2*np.pi*fm*t) # Σήμα πληροφορίας
-    carrier = Ac * np.cos(2 * np.pi * fc * t)               # Φέρον σήμα
-    mu = Am / Ac                                            # Συντελεστής διαμόρφωσης μ
+    carrier = Ac * np.cos(2 * np.pi * fc * t)     # Φέρον σήμα
+    mu = Am / Ac      # Συντελεστής διαμόρφωσης μ
     am_signal = Ac * (1 + mu * np.cos(2 * np.pi * fm * t)) * np.cos(2 * np.pi * fc * t)  # Σήμα AM
     demodulated = Ac * (1 + mu * np.cos(2 * np.pi * fm * t))  # Αποδιαμορφωμένο (περιβάλλουσα)
     
-    # ---- Καθαρισμός προηγούμενων γραφημάτων ----
+    # Καθαρισμός προηγούμενων γραφημάτων 
     for widget in frame_plot.winfo_children():
         widget.destroy()
-    # ---- Δημιουργία παραθύρου γραφημάτων ----
+    # Δημιουργία παραθύρου γραφημάτων 
     fig, axs = plt.subplots(4, 1, figsize=(7, 6), constrained_layout=True)
     
     # 1️⃣ Σήμα πληροφορίας
@@ -61,18 +59,16 @@ def generate_plot():
     axs[3].set_ylabel("Πλάτος")
     axs[3].grid(True)
     
-    # ---- Εμφάνιση των γραφημάτων στο GUI ----Ενσωματώνουμε τα plots στο GUI
+    # Εμφάνιση των γραφημάτων στο GUI-Ενσωματώνουμε τα plots στο GUI
     canvas = FigureCanvasTkAgg(fig, master=frame_plot)
     canvas.draw()
     canvas.get_tk_widget().pack()
     
-# -------------------------------------------------------------
 # ΔΗΜΙΟΥΡΓΙΑ ΓΡΑΦΙΚΟΥ ΠΕΡΙΒΑΛΛΟΝΤΟΣ (Tkinter)
-# -------------------------------------------------------------
 root = tk.Tk()
 root.title("Amplitude Modulation (AM) Demo")
 
-# ---- Περιοχή εισαγωγής παραμέτρων ----
+#Περιοχή εισαγωγής παραμέτρων
 frame_input = ttk.Frame(root, padding=10)
 frame_input.pack(side=tk.LEFT,fill=tk.Y)
 
@@ -96,14 +92,14 @@ entry_fc = ttk.Entry(frame_input)
 entry_fc.insert(0, "1000")
 entry_fc.pack()
 
-# ---- Κουμπί για παραγωγή γραφημάτων ----
+#Κουμπί για παραγωγή γραφημάτων 
 ttk.Button(frame_input, text="Generate & Plot", command=generate_plot).pack(pady=10)#Όταν το πατήσεις, καλεί τη συνάρτηση generate_plot().
 
-# ---- Περιοχή εμφάνισης γραφημάτων ----
+# Περιοχή εμφάνισης γραφημάτων
 frame_plot = ttk.Frame(root, padding=10)#Είναι το “δεξί” κομμάτι του παραθύρου όπου θα εμφανίζονται τα γραφήματα.
 frame_plot.pack(side=tk.RIGHT, fill=tk.BOTH, expand=True)
 
-# ---- Εκκίνηση GUI ----
+#Εκκίνηση GUI
 root.mainloop()
 
 #tkinter: Δημιουργεί το γραφικό παράθυρο (GUI).
