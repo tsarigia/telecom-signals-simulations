@@ -1,0 +1,11 @@
+.vscode/
+# --- MATLAB ---
+*.asv
+slprj/
+*.mex*
+
+# --- Python ---
+__pycache__/
+.venv/
+venv/
+.env
