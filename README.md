@@ -17,4 +17,15 @@ This repository contains a codebase (MATLAB & Python) for various Telecommunicat
 ### C. Channel Modeling & Propagation
 
 
+
 ### D. Digital Communications
+
+## 🛠️ Prerequisites & Requirements
+
+To run the projects in this repository, you will need the following tools and libraries:
+
+**For Python Projects:**
+* Python 3.13
+* The required packages are listed in `requirements.txt`. You can install them by running:
+  ```bash
+  pip install -r requirements.txt
