@@ -1,4 +1,4 @@
-# Analog-comms-ex
+# Telecom Signals Simulations
 
 This repository contains a codebase (MATLAB & Python) for various Telecommunications projects, ranging from signal fundamentals to advanced modulation techniques.
 
