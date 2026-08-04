@@ -45,6 +45,8 @@ $$u(t) = m(t) \cdot c(t) = 2 m(t) \cos(70\pi t)$$
 * **Key Characteristic:** Unlike conventional AM, DSB-SC does not transmit a discrete carrier spike when $m(t) = 0$, thereby saving transmission power. The envelope of the modulated waveform is bounded by $\pm A_c m(t)$.
 
 ---
+![graphs](./freq_sch.png)
+![graphs](./time_sch.png)
 
 ## 2. Step-by-Step Task Analysis
 
