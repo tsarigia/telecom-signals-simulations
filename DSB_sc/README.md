@@ -20,7 +20,15 @@ The project models a piecewise linear baseband message signal, performs time-dom
 ### 1.1 Baseband Message Signal $m(t)$
 The information signal $m(t)$ is defined as a continuous-time piecewise linear pulse active within the time interval $[0.1, 2.0]$ seconds:
 
-$$m(t) = \begin{cases} t, & 0.1 \le t < 1.0 \\ -t + 2, & 1.0 \le t < 1.9 \\ 0.1, & 1.9 \le t \le 2.0 \\ 0, & \text{otherwise} \end{cases}$$
+$$
+m(t) = 
+\begin{cases} 
+t, & 0.1 \le t < 1.0 \\ 
+-t + 2, & 1.0 \le t < 1.9 \\ 
+0.1, & 1.9 \le t \le 2.0 \\ 
+0, & \text{otherwise} 
+\end{cases}
+$$
 
 * **Physical Interpretation:** The signal rises linearly from **0.1 V** to a peak of **1.0 V** at $t = 1.0\text{ s}$, decreases linearly to **0.1 V** at $t = 1.9\text{ s}$, holds constant at **0.1 V** until $t = 2.0\text{ s}$, and remains zero everywhere else.
 
