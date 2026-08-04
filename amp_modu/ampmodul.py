@@ -1,10 +1,14 @@
 #ΕΙΣΑΓΩΓΗ ΒΙΒΛΙΟΘΗΚΩΝ 
  #Να γίνει σε γραφικό περιβάλλον σε Python ένα προγραμμα που να δέχεται πλάτος σήματος πληφορίας,  πλάτος φέροντος, συχνότητα σήματος πληροφορίας, συχνότητα σήματος πληροφορίας και να εμφανίζει στο πεδίο του χρόνου διάγραμμα του σήματος πληροφορίας, διάγραμμα του φέροντος, του σήματος ΑΜ και του αποδιαμορφωμένου σήματος ΑΜ. 
-import numpy as np
-import matplotlib.pyplot as plt
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg  # Για να ενσωματωθεί το matplotlib στο Tkinter GUI
 import tkinter as tk  # Για δημιουργία γραφικού περιβάλλοντος (GUI)
-from tkinter import ttk # Βελτιωμένα γραφικά στοιχεία για Tkinter
+from tkinter import ttk  # Βελτιωμένα γραφικά στοιχεία για Tkinter
+
+import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.backends.backend_tkagg import (
+    FigureCanvasTkAgg,  # Για να ενσωματωθεί το matplotlib στο Tkinter GUI
+)
+
 
 # ΣΥΝΑΡΤΗΣΗ ΠΟΥ ΕΚΤΕΛΕΙ ΤΟΥΣ ΥΠΟΛΟΓΙΣΜΟΥΣ ΚΑΙ ΤΑ ΓΡΑΦΗΜΑΤΑ
 def generate_plot():
