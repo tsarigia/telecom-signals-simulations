@@ -1,5 +1,5 @@
 
-% Complete MATLAB Solution for Exercise 6: A-Law, mu-Law, DPCM & Uniform PCM
+% A-Law, mu-Law, DPCM & Uniform PCM
 
 clear; clc; close all;
 
@@ -39,10 +39,10 @@ sqnr_mulaw = 10 * log10(sum(x.^2) / sum(e_mulaw.^2));
 
 fprintf(' SQNR COMPARISON (N = 256)   \n');
 
-fprintf(' (α) Differential PCM (DPCM):     %6.2f dB\n', sqnr_dpcm);
-fprintf(' (β) mu-Law PCM (mu = 255):   %6.2f dB\n', sqnr_mulaw);
-fprintf(' (γ) A-Law PCM (alpha = 87.6):  %6.2f dB\n', sqnr_alaw);
-fprintf(' (δ) Uniform PCM (N = 256):   %6.2f dB\n', sqnr_unif);
+fprintf('  Differential PCM (DPCM):     %6.2f dB\n', sqnr_dpcm);
+fprintf('  mu-Law PCM (mu = 255):   %6.2f dB\n', sqnr_mulaw);
+fprintf('  A-Law PCM (alpha = 87.6):  %6.2f dB\n', sqnr_alaw);
+fprintf('  Uniform PCM (N = 256):   %6.2f dB\n', sqnr_unif);
 
 
 %7. Γραφήματα Σφάλματος Κβάντισης e[n]
