@@ -13,8 +13,8 @@ def invalaw(y: np.ndarray, alpha: float = 87.6) -> np.ndarray:
     idx1 = np.abs(y) < thresh
     idx2 = np.abs(y) >= thresh
 
-    x[idx1] = np.sign(y[idx1]) * (np.abs(y[idx1]) * (1.0 + np.log(alpha))) / alpha
-    x[idx2] = np.sign(y[idx2]) * (np.exp(np.abs(y[idx2]) * (1.0 + np.log(alpha)) - 1.0)) / alpha
+    x[idx1] = np.sign(y[idx1]) * (np.abs(y[idx1]) * (1.0 + np.log(alpha))) / alpha #[idx1] is the index of the elements in y that are less than thresh in absolute value. For these elements, we apply the inverse A-Law formula for small values. 
+    x[idx2] = np.sign(y[idx2]) * (np.exp(np.abs(y[idx2]) * (1.0 + np.log(alpha)) - 1.0)) / alpha # [idx2] is the index of the elements in y that are greater than or equal to thresh in absolute value. For these elements, we apply the inverse A-Law formula for larger values.
     return x
 
 
@@ -96,11 +96,12 @@ def dpcm_pcm(x: np.ndarray, n_levels: int):
 #  3. MAIN ANALYSIS SCRIPT
 
 def main():
-    wav_path = "speech.wav"
-    if os.path.exists(wav_path):
+    script_dir = os.path.dirname(os.path.abspath(__file__))# Get the directory of the current script
+    wav_path = os.path.join(script_dir, "speech.wav")# Construct the full path to the speech.wav file in the same directory as the script
+    if os.path.exists(wav_path): # Check if the speech.wav file exists
         fs, data = wavfile.read(wav_path)
         x = data.astype(float)
-        if x.ndim > 1:
+        if x.ndim > 1: # If the audio data has more than one channel (stereo), convert it to mono by taking the first channel
             x = x[:, 0]  # Mono conversion
     else:
         # Generate authentic speech-like synthetic signal if file not present
@@ -133,7 +134,7 @@ def main():
     # Scheme (α): Differential PCM (DPCM)
     _, e_dpcm, sqnr_dpcm = dpcm_pcm(x, n_levels)
 
-    # Print Comparative SQNR Summary Table
+    # Print Comparative SQNR 
    
     print("  EXERCISE 6: SQNR COMPARISON (N = 256)  ")
   

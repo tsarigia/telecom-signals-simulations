@@ -1,8 +1,8 @@
 # Non-Uniform Companding & PCM Quantization Analysis (A-Law, $\mu$-Law, DPCM & Uniform PCM)
 
-This repository contains the theoretical foundations, mathematical derivations, and computational implementations (in **Python** and **MATLAB**) for Exercise 6. It explores Pulse Code Modulation (PCM) schemes, including **Uniform PCM**, **$\mu$-Law Companding**, **A-Law Companding**, and **Differential PCM (DPCM)**.
+This repository contains  theoretical foundations, mathematical derivations, and computational implementations (in **Python** and **MATLAB**). It explores Pulse Code Modulation (PCM) schemes, including **Uniform PCM**, **$\mu$-Law Companding**, **A-Law Companding**, and **Differential PCM (DPCM)**.
 
-The project implements custom non-linear companding functions (`alaw_pcm` and `invalaw`), evaluates the Signal-to-Quantization-Noise Ratio (**SQNR** in dB) across 256 quantization levels ($N = 256$, 8-bit resolution), and visualizes the quantization error waveforms for speech/audio signals.
+The project implements custom non-linear companding functions (`alaw_pcm` and `invalaw`), evaluates the Signal-to-Quantization-Noise Ratio (**SQNR** in dB) across 256 quantization levels ($N = 256$, 8-bit resolution), and visualizes the quantization error waveforms for acoustic speech signals.
 
 ---
 
@@ -10,7 +10,6 @@ The project implements custom non-linear companding functions (`alaw_pcm` and `i
 1. [Theoretical Background & Companding Formulas](#1-theoretical-background--companding-formulas)
 2. [Quantization Schemes & SQNR Definitions](#2-quantization-schemes--sqnr-definitions)
 3. [Experimental Results & Telecommunication Analysis](#3-experimental-results--telecommunication-analysis)
-
 ---
 
 ## 1. Theoretical Background & Companding Formulas
@@ -54,13 +53,13 @@ $$\text{SQNR}_{\text{dB}} = 10 \log_{10} \left( \frac{\sum_{n=0}^{L-1} \vert{}x[
 
 ## 3. Experimental Results & Telecommunication Analysis
 
-### 3.1 Experimental SQNR Results (Speech Audio Input)
+### 3.1 Laboratory SQNR Measurements (Acoustic Speech Signal)
 
 ```text
 
-EXERCISE 6: SQNR COMPARISON (N = 256)       
+ SQNR COMPARISON (N = 256)       
 
- (a) Differential PCM (DPCM):        30.86 dB
- (b) mu-Law PCM (mu = 255):          31.91 dB
- (c) A-Law PCM (alpha = 87.6):       32.15 dB
- (d) Uniform PCM (N = 256):          36.66 dB
+ (a) Differential PCM (DPCM):        21.18 dB
+ (b) mu-Law PCM (mu = 255):          32.05 dB
+ (c) A-Law PCM (alpha = 87.6):       32.14 dB
+ (d) Uniform PCM (N = 256):          28.46 dB
