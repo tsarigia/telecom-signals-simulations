@@ -29,9 +29,14 @@ This repository contains a codebase (MATLAB & Python) for various Telecommunicat
 
 
 ### D. Digital Communications
-   7. [ Non-Uniform Companding & PCM Quantization Analysis](./Quant_samp)
+7. [ Non-Uniform Companding & PCM Quantization Analysis](./Quant_samp)
 
    The project implements custom non-linear companding functions (`alaw_pcm` and `invalaw`), evaluates the Signal-to-Quantization-Noise Ratio (SQNR in dB) across 256 quantization levels ($N = 256$, 8-bit resolution), and visualizes the quantization error waveforms for acoustic speech signals.
+
+8.  [Uniform Quantization Analysis & SQNR Evaluation](./Quantization)
+
+   The project plots the quantizer input-output transfer characteristics, analyzes time-domain quantization error waveforms $e(t)$, and proves both analytically and experimentally the **$6.02\text{ dB/bit}$** Signal-to-Quantization-Noise Ratio (SQNR) scaling law.
+
 
 ## 🛠️ Prerequisites & Requirements
 
