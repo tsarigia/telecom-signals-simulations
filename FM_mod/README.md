@@ -17,7 +17,14 @@ The project evaluates instantaneous frequency variations, computes the modulatio
 ### 1.1 Baseband Message Signal $m(t)$
 The information signal $m(t)$ is defined as a continuous-time piecewise linear triangular pulse active within the time interval $[0, 2]$ seconds, with a constant DC baseline of $0.1\text{ V}$ elsewhere:
 
-$$m(t) =  \begin{cases}  t, & 0 \le t < 1 \\  -t + 2, & 1 \le t < 2 \\  0.1, & \text{otherwise}  \end{cases}$$
+$$
+m(t) = 
+ \begin{cases} 
+t, & 0 \le t < 1 \\ 
+-t + 2, & 1 \le t < 2 \\ 
+0.1, & \text{otherwise} 
+\end{cases}
+$$
 
 * **Physical Characteristics:**
   * Minimum amplitude: $\min[m(t)] = 0.0\text{ V}$ (at $t = 0\text{ s}$ and $t = 2\text{ s}$).
