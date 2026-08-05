@@ -14,7 +14,7 @@ This repository contains a codebase (MATLAB & Python) for various Telecommunicat
 
 3. [Frequency Modulation (FM) & Spectral Analysis](./FM_mod)
    
-   This file contains the theoretical analysis, mathematical derivation, and computational implementation for **Frequency Modulation (FM) of a piecewise linear baseband message signal. 
+   This file contains the theoretical analysis, mathematical derivation, and computational implementation for Frequency Modulation (FM) of a piecewise linear baseband message signal. 
 
 ### B. Signal Processing Fundamentals
 4. [ Frequency Spectrum Analysis of a Signal](./freq_diag)  
