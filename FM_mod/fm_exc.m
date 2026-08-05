@@ -1,5 +1,5 @@
-% fm_modulation.m
-% Complete MATLAB Solution for Exercise 5: FM Modulation & Carson's Rule
+
+%  FM Modulation & Carson's Rule
 
 clear; clc; close all;
 
