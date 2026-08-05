@@ -1,5 +1,5 @@
-% dsbsc_modulation.m
-% Complete MATLAB Solution for Exercise 4: DSB-SC Modulation & Zero-Phase Filtering
+
+%  DSB-SC Modulation & Zero-Phase Filtering
 
 clear; clc; close all;
 
