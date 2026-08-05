@@ -1,6 +1,6 @@
 # Frequency Modulation (FM) & Spectral Analysis
 
-This repository contains the theoretical analysis, mathematical derivation, and computational implementation (in **Python** and **MATLAB**) for **Frequency Modulation (FM)** of a piecewise linear baseband message signal. 
+This file contains the theoretical analysis, mathematical derivation, and computational implementation (in **Python** and **MATLAB**) for **Frequency Modulation (FM)** of a piecewise linear baseband message signal. 
 
 The project evaluates instantaneous frequency variations, computes the modulation index and Carson's bandwidth, and performs time-domain and frequency-domain (FFT) spectral analysis around a $1000\text{ Hz}$ carrier wave.
 
@@ -48,6 +48,10 @@ $$\theta_i(t) = 2\pi \int_{0}^{t} f_i(\tau) \, d\tau = 2\pi f_c t + 2\pi k_f \in
 Thus, the transmitted FM waveform is expressed as:
 
 $$s_{\text{FM}}(t) = A_c \cos\left( 2\pi f_c t + 2\pi k_f \int_{0}^{t} m(\tau) \, d\tau \right)$$
+
+![graphs](./fm_time.png)
+![graphs](./fm_spect.png)
+
 
 ---
 

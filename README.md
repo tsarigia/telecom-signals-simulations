@@ -12,11 +12,15 @@ This repository contains a codebase (MATLAB & Python) for various Telecommunicat
    
    The project models a piecewise linear baseband message signal, performs time-domain modulation with a high-frequency carrier wave, calculates theoretical and numerical signal power, and evaluates the spectral behavior using Fast Fourier Transforms (FFT) both with and without Additive White Gaussian Noise (AWGN).
 
+3. [Frequency Modulation (FM) & Spectral Analysis](./FM_mod)
+   
+   This file contains the theoretical analysis, mathematical derivation, and computational implementation for **Frequency Modulation (FM) of a piecewise linear baseband message signal. 
+
 ### B. Signal Processing Fundamentals
-3. [ Frequency Spectrum Analysis of a Signal](./freq_diag)  
+4. [ Frequency Spectrum Analysis of a Signal](./freq_diag)  
    
    Analyze the frequency behavior of a time-domain signal \( x(t) \)
-4. [Fourier Transform of a Rectangular Pulse](./fft_ex)
+5. [Fourier Transform of a Rectangular Pulse](./fft_ex)
    
    This project demonstrates the Fourier Transform (FT) of a rectangular pulse both theoretically (using analytical derivation) and numerically (using the Fast Fourier Transform - FFT).
 
