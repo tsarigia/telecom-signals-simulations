@@ -22,11 +22,13 @@ $$PL_{NLOS}[dB] = L_{FS} + L_{rts} + L_{MSD}$$
 
 2. **Roof-to-Street Diffraction and Scatter Loss ($L_{rts}$):** The loss the signal experiences as it diffracts from the rooftop of the last building down to the street level where the mobile user is located.
    $$L_{rts} = -16.9 - 10\log_{10}(w) + 10\log_{10}(f) + 20\log_{10}(\Delta h_{mobile}) + L_{ori}$$
-   *Where $w$ is the street width, $\Delta h_{mobile} = h_{roof} - h_{mobile}$, and $L_{ori}$ is the street orientation correction factor.*
+   
+   Where $w$ is the street width, $\Delta h_{mobile} = h_{roof} - h_{mobile}$, and $L_{ori}$ is the street orientation correction factor.*
 
 3. **Multi-Screen Diffraction Loss ($L_{MSD}$):** The loss caused by the signal propagating over multiple building rooftops.
    $$L_{MSD} = L_{bsh} + k_a + k_d\log_{10}(d) + k_f\log_{10}(f) - 9\log_{10}(b)$$
-   *Where $b$ is the building separation distance. The parameters $L_{bsh}$, $k_a$, $k_d$, and $k_f$ are empirically derived constants depending on whether the base station is above or below the rooftops, and the size of the city.*
+   
+   Where $b$ is the building separation distance. The parameters $L_{bsh}$, $k_a$, $k_d$, and $k_f$ are empirically derived constants depending on whether the base station is above or below the rooftops, and the size of the city.*
 
 ---
 
