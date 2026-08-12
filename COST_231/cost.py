@@ -3,7 +3,7 @@ import numpy as np
 
 
 def main():
-    # --- System Parameters ---
+    # System Parameters
     f = 1900    # Operating Frequency (MHz)
     h_base = 30  # Base Station Height (m)
     h_mobile = 3  # Mobile Station Height (m)

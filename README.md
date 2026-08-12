@@ -25,15 +25,20 @@ This repository contains a codebase (MATLAB & Python) for various Telecommunicat
    This project demonstrates the Fourier Transform (FT) of a rectangular pulse both theoretically (using analytical derivation) and numerically (using the Fast Fourier Transform - FFT).
 
 ### C. Channel Modeling & Propagation
+6. [COST-231 Walfisch-Ikegami](./COST_231)
 
+   This repository contains the theoretical background, detailed step-by-step mathematical solutions, and analytical results for the COST-231 Walfisch-Ikegami empirical radio propagation model.
 
+7. [Close-In (CI) Free Space Reference Distance empirical propagation model](./CI_model)
+   
+   This repository contains the theoretical background, detailed step-by-step mathematical solutions, and analytical results for the Close-In (CI) Free Space Reference Distance empirical propagation model, primarily used for 5G mmWave network planning.
 
 ### D. Digital Communications
-7. [ Non-Uniform Companding & PCM Quantization Analysis](./Quant_samp)
+9. [ Non-Uniform Companding & PCM Quantization Analysis](./Quant_samp)
 
    The project implements custom non-linear companding functions (`alaw_pcm` and `invalaw`), evaluates the Signal-to-Quantization-Noise Ratio (SQNR in dB) across 256 quantization levels ($N = 256$, 8-bit resolution), and visualizes the quantization error waveforms for acoustic speech signals.
 
-8. [Uniform Quantization Analysis & SQNR Evaluation](./Quantization)
+10. [Uniform Quantization Analysis & SQNR Evaluation](./Quantization)
 
    The project plots the quantizer input-output transfer characteristics, analyzes time-domain quantization error waveforms $e(t)$, and proves both analytically and experimentally the **$6.02\text{ dB/bit}$** Signal-to-Quantization-Noise Ratio (SQNR) scaling law.
 
