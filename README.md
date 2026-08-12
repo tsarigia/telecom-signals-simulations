@@ -5,6 +5,7 @@ This repository contains a codebase (MATLAB & Python) for various Telecommunicat
 ## 📑 Table of Contents:
 
 ### A. Analog Communications
+
 1. [Amplitude Modulation (AM) Simulation with GUI (Python)](./amp_modu)  
   This exercise involves the development of a Python program with a **Graphical User Interface (GUI)** designed to simulate the fundamental processes of Amplitude Modulation (AM) and Demodulation.
 
@@ -17,6 +18,7 @@ This repository contains a codebase (MATLAB & Python) for various Telecommunicat
    This file contains the theoretical analysis, mathematical derivation, and computational implementation for Frequency Modulation (FM) of a piecewise linear baseband message signal. 
 
 ### B. Signal Processing Fundamentals
+
 4. [ Frequency Spectrum Analysis of a Signal](./freq_diag)  
    
    Analyze the frequency behavior of a time-domain signal \( x(t) \)
@@ -25,6 +27,7 @@ This repository contains a codebase (MATLAB & Python) for various Telecommunicat
    This project demonstrates the Fourier Transform (FT) of a rectangular pulse both theoretically (using analytical derivation) and numerically (using the Fast Fourier Transform - FFT).
 
 ### C. Channel Modeling & Propagation
+
 6. [COST-231 Walfisch-Ikegami](./COST_231)
 
    This repository contains the theoretical background, detailed step-by-step mathematical solutions, and analytical results for the COST-231 Walfisch-Ikegami empirical radio propagation model.
@@ -33,7 +36,12 @@ This repository contains a codebase (MATLAB & Python) for various Telecommunicat
    
    This repository contains the theoretical background, detailed step-by-step mathematical solutions, and analytical results for the Close-In (CI) Free Space Reference Distance empirical propagation model, primarily used for 5G mmWave network planning.
 
+8. [Stanford University Interim (SUI)](./SUI_model)
+   
+   This repository contains the theoretical background, step-by-step mathematical solutions, and a Python simulation for the Stanford University Interim (SUI) propagation model.
+
 ### D. Digital Communications
+
 9. [ Non-Uniform Companding & PCM Quantization Analysis](./Quant_samp)
 
    The project implements custom non-linear companding functions (`alaw_pcm` and `invalaw`), evaluates the Signal-to-Quantization-Noise Ratio (SQNR in dB) across 256 quantization levels ($N = 256$, 8-bit resolution), and visualizes the quantization error waveforms for acoustic speech signals.
