@@ -1,4 +1,8 @@
-# Telecom Signals Simulations
+<img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
+
+<div align="center">
+  <h1> 📡  Telecom Signals Simulations </h1>
+</div>
 
 This repository contains a codebase (MATLAB & Python) for various Telecommunications projects, ranging from signal fundamentals to advanced modulation techniques.
 
@@ -50,11 +54,11 @@ This repository contains a codebase (MATLAB & Python) for various Telecommunicat
 
 ### D. Digital Communications
 
-11. [ Non-Uniform Companding & PCM Quantization Analysis](./Quant_samp)
+ 11. [ Non-Uniform Companding & PCM Quantization Analysis](./Quant_samp)
 
    The project implements custom non-linear companding functions (`alaw_pcm` and `invalaw`), evaluates the Signal-to-Quantization-Noise Ratio (SQNR in dB) across 256 quantization levels ($N = 256$, 8-bit resolution), and visualizes the quantization error waveforms for acoustic speech signals.
 
-12. [Uniform Quantization Analysis & SQNR Evaluation](./Quantization)
+ 12. [Uniform Quantization Analysis & SQNR Evaluation](./Quantization)
 
    The project plots the quantizer input-output transfer characteristics, analyzes time-domain quantization error waveforms $e(t)$, and proves both analytically and experimentally the **$6.02\text{ dB/bit}$** Signal-to-Quantization-Noise Ratio (SQNR) scaling law.
 
