@@ -40,13 +40,21 @@ This repository contains a codebase (MATLAB & Python) for various Telecommunicat
    
    This repository contains the theoretical background, step-by-step mathematical solutions, and a Python simulation for the Stanford University Interim (SUI) propagation model.
 
+9. [Okumura-Hata Propagation Model](./Okumura_hata)
+
+   This repository contains the theoretical background, detailed step-by-step mathematical solutions, and a Python simulation for the **Okumura-Hata** empirical propagation model
+
+10. [3GPP TR 38.901 Propagation Model for 5G](./3gpp_tr)
+
+    This repository contains the mathematical solutions and a Python simulation for the **3GPP TR 38.901** propagation model, focusing on Non-Line-of-Sight (NLOS) outdoor scenarios for 5G networks.
+
 ### D. Digital Communications
 
-9. [ Non-Uniform Companding & PCM Quantization Analysis](./Quant_samp)
+11. [ Non-Uniform Companding & PCM Quantization Analysis](./Quant_samp)
 
    The project implements custom non-linear companding functions (`alaw_pcm` and `invalaw`), evaluates the Signal-to-Quantization-Noise Ratio (SQNR in dB) across 256 quantization levels ($N = 256$, 8-bit resolution), and visualizes the quantization error waveforms for acoustic speech signals.
 
-10. [Uniform Quantization Analysis & SQNR Evaluation](./Quantization)
+12. [Uniform Quantization Analysis & SQNR Evaluation](./Quantization)
 
    The project plots the quantizer input-output transfer characteristics, analyzes time-domain quantization error waveforms $e(t)$, and proves both analytically and experimentally the **$6.02\text{ dB/bit}$** Signal-to-Quantization-Noise Ratio (SQNR) scaling law.
 
