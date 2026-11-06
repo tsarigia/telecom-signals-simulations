@@ -67,7 +67,7 @@ $$
 - **Phase:**
 
 $$
-\angle X(f) = \operatorname{atan2}\left(\Im\{X(f)\}, \Re\{X(f)\}\right)
+\angle X(f) = \mathrm{atan2}\!\bigl(\Im\{X(f)\},\,\Re\{X(f)\}\bigr)
 $$
 
 The magnitude spectrum describes the strength of the signal's frequency components; its squared magnitude is related to energy distribution. The phase spectrum describes the phase of each frequency component and reflects the signal's time-domain structure.
@@ -134,6 +134,14 @@ A numerical approximation to the continuous Fourier transform is implemented usi
 - The **magnitude spectrum** is normalized to its peak, so it shows relative magnitude rather than the absolute scale of \(X(f)\). It is even because the signal is real.
 - The **phase spectrum** is wrapped to \([-\pi,\pi]\). Apparent jumps can occur at the wrapping boundary and near spectral zeros, where phase is poorly defined.
 - The signal is not even, so its phase is generally nonzero. The time-origin correction in the script accounts for the samples starting at \(t=-5\).
+
+### Tests
+
+Run the signal and Fourier-transform tests from the repository root with:
+
+```bash
+python -m unittest discover -s freq_diag -p "test_*.py" -v
+```
 
 ---
 
