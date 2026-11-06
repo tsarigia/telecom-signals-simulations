@@ -2,124 +2,134 @@ import matplotlib.pyplot as plt
 import numpy as np
 from scipy.fft import fft, fftfreq, fftshift
 
-#  Time Vector & Sampling Configuration
-fs = 2000  # Sampling frequency (2000 Hz > 2*fc for Nyquist compliance)
-dt = 1 / fs
-t = np.arange(0, 2.5, dt)  # Duration from 0 to 2.5 seconds
-N = len(t)
 
-#  Piecewise Baseband Message Signal m(t) 
-m = np.zeros_like(t)
-mask1 = (t >= 0.1) & (t < 1.0)
-mask2 = (t >= 1.0) & (t < 1.9)
-mask3 = (t >= 1.9) & (t <= 2.0)
+def message_signal(t):
+    """Generate the piecewise baseband message signal."""
+    message = np.zeros_like(t)
+    mask1 = (t >= 0.1) & (t < 1.0)
+    mask2 = (t >= 1.0) & (t < 1.9)
+    mask3 = (t >= 1.9) & (t <= 2.0)
 
-m[mask1] = t[mask1]
-m[mask2] = -t[mask2] + 2.0
-m[mask3] = 0.1
+    message[mask1] = t[mask1]
+    message[mask2] = -t[mask2] + 2.0
+    message[mask3] = 0.1
+    return message
 
-#  Carrier Signal c(t) 
-Ac = 2.0
-fc = 35.0   # Carrier frequency: 35 Hz
-c = Ac * np.cos(2 * np.pi * fc * t)
 
-#  DSB-SC Modulated Signal u(t) 
-u = m * c
+def carrier_signal(t, amplitude=2.0, frequency=35.0):
+    """Generate the sinusoidal carrier signal."""
+    return amplitude * np.cos(2 * np.pi * frequency * t)
 
-# 5. Average Power Calculation 
-P_m = np.mean(m**2)  # Average power of message signal m(t)
-P_u = np.mean(u**2)  # Average power of modulated signal u(t)
-P_u_theory = (Ac**2 / 2.0) * P_m
 
-print("AVERAGE POWER CALCULATION RESULTS")
-print(f"Message Signal Power (P_m):           {P_m:.4f} W")
-print(f"Modulated Signal Power (Numerical):   {P_u:.4f} W")
-print(f"Modulated Signal Power (Theoretical): {P_u_theory:.4f} W")
+def modulate(message, carrier):
+    """Generate the DSB-SC signal by multiplying message and carrier."""
+    return message * carrier
 
-#  AWGN Noise Addition 
-np.random.seed(42)
-noise_std = 0.4
-noise = np.random.normal(0, noise_std, N)
-u_noisy = u + noise
 
-# 7. Fast Fourier Transform (FFT) Analysis 
-freqs = fftshift(fftfreq(N, dt))
+def average_power(signal):
+    """Return the mean-square power of a discrete-time signal."""
+    return np.mean(signal**2)
 
-M_f = fftshift(fft(m)) / N
-C_f = fftshift(fft(c)) / N
-U_f = fftshift(fft(u)) / N
-U_noisy_f = fftshift(fft(u_noisy)) / N
 
-#PLOTTING 
+def spectrum(signal, sample_interval):
+    """Return the centered frequency axis and normalized FFT."""
+    frequencies = fftshift(fftfreq(signal.size, sample_interval))
+    values = fftshift(fft(signal)) / signal.size
+    return frequencies, values
 
-# Figure 1: Time-Domain Waveforms 
-fig1, axs1 = plt.subplots(3, 1, figsize=(10, 8), constrained_layout=True)
 
-axs1[0].plot(t, m, "b", linewidth=2)
-axs1[0].set(
-    title="Task A: Message Signal m(t)",
-    ylabel="Amplitude (V)",
-    xlim=(0, 2.5),
-    ylim=(-0.2, 1.2),
-)
-axs1[0].grid(True)
+def main():
+    # Time vector and sampling configuration.
+    fs = 2000  # Sampling frequency (Hz).
+    dt = 1 / fs
+    t = np.arange(0, 2.5, dt)
+    n_samples = len(t)
 
-axs1[1].plot(t, c, "g", linewidth=1)
-axs1[1].set(
-    title="Task B: Carrier Signal c(t) (35 Hz)",
-    ylabel="Amplitude (V)",
-    xlim=(0, 2.5),
-    ylim=(-2.5, 2.5),
-)
-axs1[1].grid(True)
+    # Generate the message, carrier, and DSB-SC modulated signal.
+    amplitude = 2.0
+    carrier_frequency = 35.0
+    message = message_signal(t)
+    carrier = carrier_signal(t, amplitude, carrier_frequency)
+    modulated = modulate(message, carrier)
 
-axs1[2].plot(t, u, "r", linewidth=1.2)
-axs1[2].plot(t, Ac * m, "k--", label="Envelope +Ac*m(t)", alpha=0.6)
-axs1[2].plot(t, -Ac * m, "k--", label="Envelope -Ac*m(t)", alpha=0.6)
-axs1[2].set(
-    title="Task C: Modulated DSB-SC Signal u(t)",
-    xlabel="Time t (s)",
-    ylabel="Amplitude (V)",
-    xlim=(0, 2.5),
-    ylim=(-2.5, 2.5),
-)
-axs1[2].legend(loc="upper right")
-axs1[2].grid(True)
+    # Compare numerical and theoretical average power.
+    message_power = average_power(message)
+    modulated_power = average_power(modulated)
+    theoretical_power = (amplitude**2 / 2.0) * message_power
 
-# Figure 2: Frequency-Domain Spectra 
-fig2, axs2 = plt.subplots(4, 1, figsize=(10, 10), constrained_layout=True)
+    print("AVERAGE POWER CALCULATION RESULTS")
+    print(f"Message Signal Power (P_m):           {message_power:.4f} W")
+    print(f"Modulated Signal Power (Numerical):   {modulated_power:.4f} W")
+    print(f"Modulated Signal Power (Theoretical): {theoretical_power:.4f} W")
 
-axs2[0].plot(freqs, np.abs(M_f), "b", linewidth=1.5)
-axs2[0].set(
-    title="Task E: Magnitude Spectrum of Message Signal |M(f)|",
-    ylabel="Magnitude",
-    xlim=(-100, 100),
-)
-axs2[0].grid(True)
+    # Add reproducible additive white Gaussian noise.
+    np.random.seed(42)
+    noise_std = 0.4
+    noisy_modulated = modulated + np.random.normal(0, noise_std, n_samples)
 
-axs2[1].plot(freqs, np.abs(C_f), "g", linewidth=1.5)
-axs2[1].set(
-    title="Task F(i): Magnitude Spectrum of Carrier Signal |C(f)|",
-    ylabel="Magnitude",
-    xlim=(-100, 100),
-)
-axs2[1].grid(True)
+    # Compute centered spectra for plotting.
+    frequencies, message_spectrum = spectrum(message, dt)
+    _, carrier_spectrum = spectrum(carrier, dt)
+    _, modulated_spectrum = spectrum(modulated, dt)
+    _, noisy_spectrum = spectrum(noisy_modulated, dt)
 
-axs2[2].plot(freqs, np.abs(U_f), "r", linewidth=1.5)
-axs2[2].set(
-    title="Task F(ii): Magnitude Spectrum of Modulated DSB-SC Signal |U(f)|",
-    ylabel="Magnitude",
-    xlim=(-100, 100),
-)
-axs2[2].grid(True)
+    # Plot time-domain waveforms.
+    _, time_axes = plt.subplots(3, 1, figsize=(10, 8), constrained_layout=True)
 
-axs2[3].plot(freqs, np.abs(U_noisy_f), "m", linewidth=1.5)
-axs2[3].set(
-    title="Task G: Magnitude Spectrum of Modulated Signal with Noise",
-    xlabel="Frequency f (Hz)",
-    ylabel="Magnitude",
-    xlim=(-100, 100),
-)
-axs2[3].grid(True)
+    time_axes[0].plot(t, message, "b", linewidth=2)
+    time_axes[0].set(
+        title="Task A: Message Signal m(t)",
+        ylabel="Amplitude (V)",
+        xlim=(0, 2.5),
+        ylim=(-0.2, 1.2),
+    )
+    time_axes[0].grid(True)
 
-plt.show()
+    time_axes[1].plot(t, carrier, "g", linewidth=1)
+    time_axes[1].set(
+        title="Task B: Carrier Signal c(t) (35 Hz)",
+        ylabel="Amplitude (V)",
+        xlim=(0, 2.5),
+        ylim=(-2.5, 2.5),
+    )
+    time_axes[1].grid(True)
+
+    time_axes[2].plot(t, modulated, "r", linewidth=1.2)
+    time_axes[2].plot(
+        t, amplitude * message, "k--", label="Envelope +Ac*m(t)", alpha=0.6
+    )
+    time_axes[2].plot(
+        t, -amplitude * message, "k--", label="Envelope -Ac*m(t)", alpha=0.6
+    )
+    time_axes[2].set(
+        title="Task C: Modulated DSB-SC Signal u(t)",
+        xlabel="Time t (s)",
+        ylabel="Amplitude (V)",
+        xlim=(0, 2.5),
+        ylim=(-2.5, 2.5),
+    )
+    time_axes[2].legend(loc="upper right")
+    time_axes[2].grid(True)
+
+    # Plot frequency-domain magnitude spectra.
+    _, frequency_axes = plt.subplots(4, 1, figsize=(10, 10), constrained_layout=True)
+    spectra = (
+        (message_spectrum, "Task E: Magnitude Spectrum of Message Signal |M(f)|"),
+        (carrier_spectrum, "Task F(i): Magnitude Spectrum of Carrier Signal |C(f)|"),
+        (
+            modulated_spectrum,
+            "Task F(ii): Magnitude Spectrum of Modulated DSB-SC Signal |U(f)|",
+        ),
+        (noisy_spectrum, "Task G: Magnitude Spectrum of Modulated Signal with Noise"),
+    )
+    for axis, (values, title) in zip(frequency_axes, spectra):
+        axis.plot(frequencies, np.abs(values), linewidth=1.5)
+        axis.set(title=title, ylabel="Magnitude", xlim=(-100, 100))
+        axis.grid(True)
+
+    frequency_axes[-1].set_xlabel("Frequency f (Hz)")
+    plt.show()
+
+
+if __name__ == "__main__":
+    main()

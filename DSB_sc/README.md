@@ -72,7 +72,7 @@ $$u(t) = m(t) \cdot c(t) = 2 m(t) \cos(70\pi t)$$
 ### Task F: Spectrum of Carrier $\vert{}C(f)\vert{}$ & Modulated Signal $\vert{}U(f)\vert{}$
 * **Objective:** Compare the spectrum of the unmodulated carrier against the modulated DSB-SC signal.
 * **Spectral Characteristics:**
-  * The carrier spectrum $\vert{}C(f)\vert{}$ displays two sharp Dirac impulses at $f = \pm 35\text{ Hz}$.
+  * The continuous-time carrier spectrum has impulses at $f = \pm 35\text{ Hz}$. The finite-duration FFT plot shows narrow peaks around these frequencies, with spectral leakage because the observation window contains a non-integer number of carrier cycles.
   * The DSB-SC spectrum $\vert{}U(f)\vert{}$ shifts the baseband spectrum $M(f)$ to center around $\pm 35\text{ Hz}$, forming an Upper Sideband (USB) and a Lower Sideband (LSB) while suppressing the central carrier tone.
 
 ### Task G (Z): Spectrum of Modulated Signal with AWGN Noise
@@ -114,7 +114,7 @@ In discrete-time simulation with $N$ samples, the numerical power is computed ex
 
 $$P_{\text{numerical}} = \frac{1}{N} \sum_{n=0}^{N-1} \vert{}u[n]\vert{}^2$$
 
-When running the implementation, the numerical power $P_u$ matches the theoretical prediction $2 P_m$ to within machine precision.
+For the finite observation window and sampling configuration used by the script, the numerical power is close to the theoretical prediction $2 P_m$, but not equal to machine precision. A test checks the relationship with a relative tolerance of $10^{-4}$.
 
 ---
 
@@ -136,3 +136,11 @@ $$U(f) = A_c M(f) * \frac{1}{2} \left[ \delta(f - f_c) + \delta(f + f_c) \right]
 * **Conclusion:** The entire baseband spectrum $M(f)$ is duplicated and shifted to $+35\text{ Hz}$ and $-35\text{ Hz}$. No energy exists at **0 Hz** or at the exact carrier frequency unless $m(t)$ contains a DC offset.
 
 ---
+
+## Tests
+
+Run the DSB-SC signal tests from the repository root with:
+
+```bash
+python -m unittest discover -s DSB_sc -p "test_*.py" -v
+```
