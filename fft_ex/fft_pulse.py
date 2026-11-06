@@ -1,72 +1,70 @@
-import numpy as np
 import matplotlib.pyplot as plt
+import numpy as np
 
-# 1. Ορισμός Παραμέτρων
-A = 1.0     # Πλάτος παλμού
-T = 2.0     # Διάρκεια παλμού
-Fs = 200.0  # Ρυθμός δειγματοληψίας (Hz)
+# 1. Define the pulse parameters.
+A = 1.0     # Pulse amplitude.
+T = 2.0     # Pulse duration (seconds).
+Fs = 200.0  # Sampling frequency (Hz).
 Ts = 1.0 / Fs
-N = 4096    # Πλήθος δειγμάτων (μεγάλο για καλή ανάλυση).
+N = 4096    # Number of samples.
 
-#2. Δημιουργία Χρονικού Άξονα και Παλμού
-t = np.linspace(-N/(2*Fs), N/(2*Fs), N, endpoint=False)
-x_t = np.where(np.abs(t) <= T/2, A, 0.0)  # Ορθογώνιος παλμός, np.where(condition, value_if_true, value_if_false)
+# 2. Sample at time-bin centers so the pulse contains exactly T * Fs samples.
+t = (np.arange(N) - N / 2 + 0.5) * Ts
+x_t = np.where(np.abs(t) < T / 2, A, 0.0)
 
-# 3. Υπολογισμός FFT 
-X_fft = np.fft.fft(x_t)#πίνακας N μιγαδικών τιμών — κάθε στοιχείο αντιστοιχεί σε ένα “συντελεστή” του μετασχηματισμού Fourier, δηλαδή σε κάποια συχνότητα.
+# 3. Compute the FFT and its corresponding frequency axis.
+X_fft = np.fft.fft(x_t)
+f = np.fft.fftfreq(N, d=Ts)
 
-#Όμως, το np.fft.fft δεν μας λέει ποιες συχνότητες είναι αυτές.Απλώς δίνει τα N αποτελέσματα του διακριτού μετασχηματισμού, σε σειρά.
-f = np.fft.fftfreq(N, d=Ts)#πίνακα συχνοτήτων που αντιστοιχεί σε κάθε δείγμα του FFT.
-
-#Όταν σχεδιάζουμε το φάσμα στο πεδίο της συχνότητας, χρειάζεται να ξέρουμε ποια συχνότητα αντιστοιχεί σε κάθε τιμή του FFT.
-
-X_shift = np.fft.fftshift(X_fft)#συμμετρικά γύρω από το 0
+X_shift = np.fft.fftshift(X_fft)
 f_shift = np.fft.fftshift(f)
-X_fft_scaled = X_shift * Ts  # Κλιμάκωση για σωστό πλάτος
+X_fft_scaled = X_shift * Ts
+# Correct for the time axis starting at t[0], rather than at zero.
+X_fft_scaled *= np.exp(-2j * np.pi * f_shift * t[0])
 
-#4. Θεωρητική Αναλυτική Μορφή -ελέγχουμε αν το FFT συμφωνεί με τη θεωρία εφοσον γνωριζουμε και την θεωρητικη λυση
-def normalized_sinc(x):
-    """Ορισμός κανονικοποιημένης sinc: sin(pi*x)/(pi*x)"""
-    return np.where(x == 0, 1.0, np.sin(np.pi * x) / (np.pi * x))
+# 4. Compute the analytical Fourier transform for comparison.
+def normalized_sinc(value):
+    """Return the normalized sinc function, sin(pi*x)/(pi*x)."""
+    return np.sinc(value)
 
 X_anal = A * T * normalized_sinc(f_shift * T)
 
-# 5. Αναλυτική Φάση (+π / -π) 
-phase_anal = np.zeros_like(f_shift)
-mask_neg = X_anal < 0
-phase_anal[(f_shift > 0) & mask_neg] = -np.pi
-phase_anal[(f_shift < 0) & mask_neg] = +np.pi
+# 5. Compute the analytical phase, which is 0 or pi for this real, even signal.
+phase_anal = np.where(X_anal < 0, np.pi, 0.0)
 
-#6. Φάση FFT (για σύγκριση)
+# The phase is undefined at spectral zeros, so omit values with very small magnitude.
+phase_threshold = np.max(np.abs(X_anal)) * 1e-3
+phase_anal[np.abs(X_anal) < phase_threshold] = np.nan
 phase_fft = np.angle(X_fft_scaled)
-phase_fft = np.unwrap(np.angle(np.fft.fftshift(X_fft)))
-phase_fft = np.fft.fftshift(phase_fft)
+phase_fft[np.abs(X_fft_scaled) < phase_threshold] = np.nan
+# Represent negative real values consistently as +pi despite FFT round-off.
+phase_fft[np.isclose(phase_fft, -np.pi)] = np.pi
 
-# 7. Θέσεις Μηδενισμών (±1/T, ±2/T, ±3/T, ...)
-zero_points = np.arange(-5, 6) / T  # μέχρι ±5/T
+# 6. Mark the theoretical spectral zeros at nonzero integer multiples of 1/T.
+zero_points = np.arange(-5, 6) / T
 zero_points = zero_points[zero_points != 0]
 
-# 8. Σχεδίαση Διαγραμμάτων 
+# 7. Plot the pulse and compare analytical and numerical spectra.
 plt.figure(figsize=(10, 12))
 
-# (a) Ορθογώνιος Παλμός
+# (a) Rectangular pulse.
 plt.subplot(3, 1, 1)
 plt.plot(t, x_t, 'b', linewidth=2)
-plt.title('(α) Ορθογώνιος Παλμός $x(t)$', fontsize=14, weight='bold')
-plt.xlabel('$t$ (Χρόνος)')
+plt.title('(a) Rectangular Pulse $x(t)$', fontsize=14, weight='bold')
+plt.xlabel('$t$ (seconds)')
 plt.ylabel('$x(t)$')
 plt.grid(True, linestyle='--', alpha=0.6)
 plt.ylim(-0.2, A + 0.2)
 plt.xlim(-2*T, 2*T)
 plt.xticks([-T/2, T/2], ['-T/2', 'T/2'])
 
-# (b) Φάσμα Πλάτους
+# (b) Magnitude spectrum.
 plt.subplot(3, 1, 2)
-plt.plot(f_shift, np.abs(X_anal) / (A*T), 'r-', linewidth=2, label='Αναλυτικό |X(f)| / (A·T)')
-plt.plot(f_shift, np.abs(X_fft_scaled) / (A*T), 'b.', alpha=0.5, label='FFT (κανονικοποιημένο)')
+plt.plot(f_shift, np.abs(X_anal) / (A * T), 'r-', linewidth=2, label='Analytical $|X(f)|/(AT)$')
+plt.plot(f_shift, np.abs(X_fft_scaled) / (A * T), 'b.', alpha=0.5, label='FFT $|X(f)|/(AT)$')
 for zp in zero_points:
     plt.axvline(zp, color='gray', linestyle='--', alpha=0.4, linewidth=0.8)
-plt.title('(β) Φάσμα Πλάτους $|X(f)|$ (με $AT=1$)', fontsize=14, weight='bold')
+plt.title('(b) Normalized Magnitude Spectrum $|X(f)|/(AT)$', fontsize=14, weight='bold')
 plt.xlabel('$f$ (Hz)')
 plt.ylabel('$|X(f)|$')
 plt.xlim(-5/T, 5/T)
@@ -76,13 +74,13 @@ plt.legend()
 plt.xticks([-2/T, -1/T, 1/T, 2/T], ['-2/T', '-1/T', '1/T', '2/T'])
 plt.axvline(0, color='gray', linewidth=0.8)
 
-# (γ) Φάσμα Φάσης
+# (c) Phase spectrum.
 plt.subplot(3, 1, 3)
-plt.step(f_shift, phase_anal, 'g-', linewidth=2, label='Αναλυτική Φάση (±π)')
-plt.plot(f_shift, np.angle(X_anal), 'r--', linewidth=1, alpha=0.6, label='Περιττή Φάση (από X(f))')
+plt.step(f_shift, phase_anal, 'g-', linewidth=2, label='Analytical phase')
+plt.plot(f_shift, phase_fft, 'b.', alpha=0.5, label='FFT phase')
 for zp in zero_points:
     plt.axvline(zp, color='gray', linestyle='--', alpha=0.4, linewidth=0.8)
-plt.title('(γ) Φάσμα Φάσης $\\theta(f)$', fontsize=14, weight='bold')
+plt.title('(c) Phase Spectrum $\\angle X(f)$', fontsize=14, weight='bold')
 plt.xlabel('$f$ (Hz)')
 plt.ylabel('$\\theta(f)$ (rad)')
 plt.yticks([-np.pi, 0, np.pi], ['$-\\pi$', '0', '$\\pi$'])
