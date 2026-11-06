@@ -1,81 +1,75 @@
 % spectrum
-% Υπολογισμός και σχεδίαση του συχνοτικού διαγράμματος πλάτους
-% και φάσης του σήματος:
+% Compute and plot the magnitude and phase spectra of the signal:
 
 % x(t) = 2,     -3 <= t <= -2
 %        |t|+2, |t| < 2
 %        1.5,   2 <= t < 3
-%        0,     αλλού
-
-% Ο υπολογισμός του X(jω) γίνεται αριθμητικά με FFT.
-
+%        0,     otherwise
+%
+% The Fourier transform X(jω) is approximated numerically using the FFT.
 
 clear; close all; clc;
 
-% 1. Ορισμός χρονικού διαστήματος και σήματος 
-dt = 0.001;% χρονικό βήμα (π.χ. 1 ms)
-t = -5:dt:5; % χρονικό διάστημα που περιέχει όλο το σήμα
-x = zeros(size(t));% αρχικοποίηση σήματος
+% 1. Define the time interval and signal.
+dt = 0.001; % Sampling interval (1 ms).
+t = -5:dt:5; % Time interval containing the entire signal.
+x = zeros(size(t)); % Initialize the signal.
 
-% Το x(t) 
-x(t >= -3 & t <= -2) = 2; % 1ο κομμάτι
-x(abs(t) < 2) = abs(t(abs(t) < 2)) + 2; % 2ο κομμάτι (|t|+2)
-x(t >= 2 & t < 3) = 1.5; % 3ο κομμάτι
-% αλλού το x(t) είναι ήδη 0
+% Define the piecewise signal.
+x(t >= -3 & t <= -2) = 2;
+x(abs(t) < 2) = abs(t(abs(t) < 2)) + 2;
+x(t >= 2 & t <= 3) = 1.5;
 
-%Γράφημα του σήματος
-figure('Name','Χρονικό Διάγραμμα x(t)');
+% Plot the time-domain signal.
+figure('Name', 'Time-Domain Signal x(t)');
 plot(t, x, 'LineWidth',1.4);
-xlabel('t (sec)'); ylabel('x(t)');
-title('Χρονικό Διάγραμμα του σήματος x(t)');
+xlabel('t (s)'); ylabel('x(t)');
+title('Time-Domain Signal x(t)');
 grid on; xlim([-4 4]);
 
-%2. Υπολογισμός Μετασχηματισμού Fourier με FFT 
-N = 2^15;    % μέγεθος FFT (δύναμη του 2)
-fs = 1/dt;    % συχνότητα δειγματοληψίας (Hz)
-X = dt * fftshift(fft(x, N));   % FFT με κανονικοποίηση Δt
+% 2. Approximate the continuous Fourier transform using the FFT.
+% Zero-padding makes the frequency grid denser, but does not improve the
+% underlying frequency resolution.
+N = 2^15; % FFT size (power of two).
+fs = 1/dt; % Sampling frequency (Hz).
+X = dt * fftshift(fft(x, N));
 
-% Οι αξονες συχνότητας
-f = (-N/2:N/2-1) * (fs/N);% σε Hz
-omega = 2 * pi * f;  % σε rad/s
+% Frequency axes.
+f = (-N/2:N/2-1) * (fs/N); % Hz.
+omega = 2 * pi * f; % rad/s.
 
-% Υπολογισμός πλάτους και φάσης
+% Correct for the time axis starting at t(1), rather than at zero.
+X = X .* exp(-1j * omega * t(1));
+
+% Compute magnitude and wrapped phase.
 magX = abs(X);
 phaseX = angle(X);
 
-% Απόκρυψη φάσης όπου το πλάτος είναι πολύ μικρό 
+% Hide phase where the magnitude is small and the phase is unreliable.
 thresh = max(magX) * 1e-2;
 phaseX(magX < thresh) = NaN;
 
-% Ξετύλιγμα (unwrap) και ομαλοποίηση φάσης γύρω από το 0
-phaseX = unwrap(phaseX);
-phaseX = phaseX - mean(phaseX(~isnan(phaseX))); % κεντράρισμα
-phaseX_deg = phaseX * 180/pi;  % μετατροπή σε μοίρες
+% 3. Plot the magnitude and phase spectra.
 
-% Ομαλοποίηση για πιο “ήπια” γραμμή
-phaseX_smooth = smoothdata(phaseX_deg, 'movmean', 50);
-
-% 3. Διαγράμματα Πλάτους και Φάσης
-
-%  Φάσμα Πλάτους 
-figure('Name','Φάσμα Πλάτους');
+% Magnitude spectrum.
+figure('Name', 'Magnitude Spectrum');
 plot(omega, magX, 'LineWidth',1.3);
 xlabel('\omega (rad/s)');
 ylabel('|X(j\omega)|');
-title('Συχνοτικό Διάγραμμα Πλάτους |X(j\omega)|');
+title('Magnitude Spectrum |X(j\omega)|');
 grid on; xlim([-50 50]);
 
-% Φάσμα Φάσης
-figure('Name','Φάσμα Φάσης');
-idx = magX > max(magX)*1e-2;   % δείξε μόνο εκεί που υπάρχει ενέργεια
-plot(omega(idx), phaseX_smooth(idx), 'LineWidth',1.3);
+% Wrapped phase spectrum (radians).
+figure('Name', 'Phase Spectrum');
+idx = magX >= thresh;
+plot(omega(idx), phaseX(idx), 'LineWidth',1.3);
 xlabel('\omega (rad/s)');
-ylabel('Φάση (μοίρες)');
-title('Συχνοτικό Διάγραμμα Φάσης ∠X(j\omega)');
+ylabel('Phase (rad)');
+title('Phase Spectrum \angle X(j\omega)');
 grid on; xlim([-50 50]);
 
-% 4. Μήνυμα στο Command Window 
-fprintf('✅ Ολοκληρώθηκε ο υπολογισμός του φάσματος X(jω)\n');
-fprintf('   Χρονικό βήμα dt = %.4f, Nfft = %d\n', dt, N);
-fprintf('   Η περιοχή [-50,50] rad/s δείχνει το κύριο φάσμα.\n');
-fprintf('   Η φάση έχει καθαριστεί και φαίνεται ομαλά σε μοίρες.\n');
+% 4. Report completion in the Command Window.
+fprintf('Fourier transform approximation completed.\n');
+fprintf('  Sampling interval dt = %.4f s, FFT size = %d\n', dt, N);
+fprintf('  The plots show the frequency range [-50, 50] rad/s.\n');
+fprintf('  Phase is shown wrapped in [-pi, pi] and omitted at low magnitudes.\n');
