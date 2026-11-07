@@ -56,54 +56,63 @@ PL_39GHz = calc_pl(39, d, n_NLOS)
 
 # 4. Σχεδίαση Διαγραμμάτων (Plotting)
 
-plt.figure(figsize=(14, 10))
-plt.suptitle('Ανάλυση Επίδοσης Ζεύξης 5G (Downlink) - Μοντέλο CI', fontsize=16, fontweight='bold')
+def plot_results():
+    plt.figure(figsize=(14, 10))
+    plt.suptitle(
+        'Ανάλυση Επίδοσης Ζεύξης 5G (Downlink) - Μοντέλο CI',
+        fontsize=16,
+        fontweight='bold',
+    )
 
-#Plot 1 
-plt.subplot(2, 2, 1)
-plt.plot(d, PL_LOS, label='LOS (n=2.1)', color='blue', linewidth=2)
-plt.plot(d, PL_NLOS, label='NLOS (n=3.19)', color='red', linewidth=2, linestyle='--')
-plt.title('Απώλεια Διαδρομής (Path Loss) vs Απόσταση')
-plt.xlabel('Απόσταση (m)')
-plt.ylabel('Path Loss (dB)')
-plt.grid(True, linestyle=':', alpha=0.7)
-plt.legend()
+    # Plot 1
+    plt.subplot(2, 2, 1)
+    plt.plot(d, PL_LOS, label='LOS (n=2.1)', color='blue', linewidth=2)
+    plt.plot(
+        d, PL_NLOS, label='NLOS (n=3.19)', color='red', linewidth=2, linestyle='--'
+    )
+    plt.title('Απώλεια Διαδρομής (Path Loss) vs Απόσταση')
+    plt.xlabel('Απόσταση (m)')
+    plt.ylabel('Path Loss (dB)')
+    plt.grid(True, linestyle=':', alpha=0.7)
+    plt.legend()
 
-#Plot 2 
-plt.subplot(2, 2, 2)
-plt.plot(d, Pr_LOS, label='LOS', color='blue', linewidth=2)
-plt.plot(d, Pr_NLOS, label='NLOS', color='red', linewidth=2, linestyle='--')
-plt.axhline(-80.98, color='black', linestyle=':', label='Noise Floor (-80.98 dBm)')
-plt.title('Ισχύς Λήψης (Pr) στο UE vs Απόσταση')
-plt.xlabel('Απόσταση (m)')
-plt.ylabel('Ισχύς Λήψης (dBm)')
-plt.grid(True, linestyle=':', alpha=0.7)
-plt.legend()
+    # Plot 2
+    plt.subplot(2, 2, 2)
+    plt.plot(d, Pr_LOS, label='LOS', color='blue', linewidth=2)
+    plt.plot(d, Pr_NLOS, label='NLOS', color='red', linewidth=2, linestyle='--')
+    plt.axhline(-80.98, color='black', linestyle=':', label='Noise Floor (-80.98 dBm)')
+    plt.title('Ισχύς Λήψης (Pr) στο UE vs Απόσταση')
+    plt.xlabel('Απόσταση (m)')
+    plt.ylabel('Ισχύς Λήψης (dBm)')
+    plt.grid(True, linestyle=':', alpha=0.7)
+    plt.legend()
 
-#Plot 3
-plt.subplot(2, 2, 3)
-plt.plot(d, SNR_LOS, label='LOS', color='blue', linewidth=2)
-plt.plot(d, SNR_NLOS, label='NLOS', color='red', linewidth=2, linestyle='--')
-plt.axhline(0, color='black', linewidth=1) # Γραμμή μηδενός
-plt.title('SNR στο UE vs Απόσταση')
-plt.xlabel('Απόσταση (m)')
-plt.ylabel('SNR (dB)')
-plt.grid(True, linestyle=':', alpha=0.7)
-plt.legend()
+    # Plot 3
+    plt.subplot(2, 2, 3)
+    plt.plot(d, SNR_LOS, label='LOS', color='blue', linewidth=2)
+    plt.plot(d, SNR_NLOS, label='NLOS', color='red', linewidth=2, linestyle='--')
+    plt.axhline(0, color='black', linewidth=1)
+    plt.title('SNR στο UE vs Απόσταση')
+    plt.xlabel('Απόσταση (m)')
+    plt.ylabel('SNR (dB)')
+    plt.grid(True, linestyle=':', alpha=0.7)
+    plt.legend()
 
-# Plot 4
-plt.subplot(2, 2, 4)
-plt.plot(d, PL_3_5GHz, label='3.5 GHz (Sub-6GHz)', color='green', linewidth=2)
-plt.plot(d, PL_28GHz, label='28 GHz (mmWave)', color='orange', linewidth=2)
-plt.plot(d, PL_39GHz, label='39 GHz (mmWave)', color='purple', linewidth=2)
-plt.title('Σύγκριση Συχνοτήτων (PL σε συνθήκες NLOS)')
-plt.xlabel('Απόσταση (m)')
-plt.ylabel('Path Loss (dB)')
-plt.grid(True, linestyle=':', alpha=0.7)
-plt.legend()
+    # Plot 4
+    plt.subplot(2, 2, 4)
+    plt.plot(d, PL_3_5GHz, label='3.5 GHz (Sub-6GHz)', color='green', linewidth=2)
+    plt.plot(d, PL_28GHz, label='28 GHz (mmWave)', color='orange', linewidth=2)
+    plt.plot(d, PL_39GHz, label='39 GHz (mmWave)', color='purple', linewidth=2)
+    plt.title('Σύγκριση Συχνοτήτων (PL σε συνθήκες NLOS)')
+    plt.xlabel('Απόσταση (m)')
+    plt.ylabel('Path Loss (dB)')
+    plt.grid(True, linestyle=':', alpha=0.7)
+    plt.legend()
 
-# Προσαρμογή του layout 
-plt.tight_layout()
-plt.subplots_adjust(top=0.92) # Αφήνουμε χώρο για τον κεντρικό τίτλο
+    plt.tight_layout()
+    plt.subplots_adjust(top=0.92)
+    plt.show()
 
-plt.show()
+
+if __name__ == "__main__":
+    plot_results()

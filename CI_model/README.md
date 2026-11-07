@@ -2,6 +2,12 @@
 
 This repository contains the theoretical background, detailed step-by-step mathematical solutions, and analytical results for the **Close-In (CI) Free Space Reference Distance** empirical propagation model, primarily used for 5G mmWave network planning.
 
+Run the CI model tests from the repository root with:
+
+```bash
+python -m unittest discover -s CI_model -p "test_*.py"
+```
+
 ## 1. Theoretical Background & Equations
 
 The Close-In (CI) model is one of the most widely adopted propagation models for 5G networks, especially in the mmWave bands (FR2). Unlike purely empirical models that use abstract curve-fitting parameters, the CI model is anchored to a physical constant: the free-space path loss at a 1-meter reference distance. 
@@ -56,10 +62,10 @@ Using the simplified formula for $d_0 = 1\text{ m}$ and $f = 28\text{ GHz}$:
 $$FSPL(28, 1) = 32.4 + 20\log_{10}(28) = 32.4 + 20(1.447) = \mathbf{61.34 \text{ dB}}$$
 
 ### Question 2: Path Loss at 150m (Deterministic, $X_{\sigma} = 0$)
-Using the CI model equation: $PL = 61.34 + 10 \cdot n \cdot \log_{10}(150)$.
-*(Note: $10\log_{10}(150) = 21.76$)*
-* **LOS ($n=2.1$):** $PL_{LOS} = 61.34 + 2.1(21.76) = \mathbf{107.04 \text{ dB}}$
-* **NLOS ($n=3.19$):** $PL_{NLOS} = 61.34 + 3.19(21.76) = \mathbf{130.75 \text{ dB}}$
+Using the CI model equation: $PL = FSPL(28, 1) + 10 \cdot n \cdot \log_{10}(150)$.
+*(Note: $10\log_{10}(150) \approx 21.7609$ and $FSPL(28, 1) \approx 61.3432$)*
+* **LOS ($n=2.1$):** $PL_{LOS} \approx 61.3432 + 2.1(21.7609) = \mathbf{107.04 \text{ dB}}$
+* **NLOS ($n=3.19$):** $PL_{NLOS} \approx 61.3432 + 3.19(21.7609) = \mathbf{130.76 \text{ dB}}$
 
 ### Question 3: Receiver Noise Power ($N$)
 First, we calculate the thermal noise floor for a 400 MHz bandwidth:
@@ -72,7 +78,7 @@ $$-174 + 10\log_{10}(400 \times 10^6) = -174 + 86.02 = -87.98 \text{ dBm}$$
 **A. Downlink (gNB $\rightarrow$ UE)**
 Constant Link Budget = $40 + 24 + 10 - 1 = \mathbf{73 \text{ dBm}}$
 * **LOS:** $P_r = 73 - 107.04 = \mathbf{-34.04 \text{ dBm}}$ | $SNR = -34.04 - (-80.98) = \mathbf{46.94 \text{ dB}}$
-* **NLOS:** $P_r = 73 - 130.75 = \mathbf{-57.75 \text{ dBm}}$ | $SNR = -57.75 - (-80.98) = \mathbf{23.23 \text{ dB}}$
+* **NLOS:** $P_r = 73 - 130.76 = \mathbf{-57.76 \text{ dBm}}$ | $SNR = -57.76 - (-80.98) = \mathbf{23.22 \text{ dB}}$
 
 **B. Uplink (UE $\rightarrow$ gNB)**
 Constant Link Budget = $23 + 10 + 24 - 1 = \mathbf{56 \text{ dBm}}$
@@ -92,3 +98,5 @@ The results highlight the critical necessity of beamforming (antenna gains) in m
 | **Uplink** ($SNR \ge 10\text{ dB}$) | LOS <br> **NLOS** | 1,663.2 m <br> **131.9 m** | 40.0 m <br> **11.3 m** |
 
 **Conclusion:** The network design is bottlenecked by the **Uplink NLOS scenario requiring an adequate SNR**. Without directional antenna gains (beamforming), the coverage radius collapses to a mere 11 meters. With beamforming, the realistic maximum cell radius is approximately **132 meters**, which aligns perfectly with modern 5G Small Cell deployment strategies.
+
+![graphs](./sui_sch.png)
