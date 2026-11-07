@@ -90,3 +90,5 @@ The mobile phone transmits at $P_{tx} = 30 \text{ dBm}$. Assuming isotropic ante
 * **Urban**: $30 - 157.63 =$ **$-127.63 \text{ dBm}$**
 * **Suburban**: $30 - 153.12 =$ **$-123.12 \text{ dBm}$**
 * **Rural**: $30 - 126.35 =$ **$-96.35 \text{ dBm}$**
+
+![graphs](./cost_model.png)

@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 
-def main():
+def calculate_path_losses(d):
     # System Parameters
     f = 1900    # Operating Frequency (MHz)
     h_base = 30  # Base Station Height (m)
@@ -12,10 +12,6 @@ def main():
     b = 50   # Building separation distance (m)
     phi_urb = 30  # Street orientation angle - Urban (degrees)
     phi_sub = 25  # Street orientation angle - Suburban (degrees)
-
-    # array of distances from 0.02 km to 10 km (step of 0.02 km)
-    # We use 10.02 as the stop value so that 10.0 is included in the array
-    d = np.arange(0.02, 10.02, 0.02) 
 
     #  1. Rural Environment Calculation (LOS)
     PL_rural = 42.6 + 26 * np.log10(d) + 20 * np.log10(f)
@@ -53,6 +49,15 @@ def main():
     # --- 3. Total Path Loss Calculation (NLOS) ---
     PL_urb = L_fs + L_rts_urb + L_msd_urb
     PL_sub = L_fs + L_rts_sub + L_msd_sub
+
+    return PL_rural, PL_urb, PL_sub
+
+
+def main():
+    # array of distances from 0.02 km to 10 km (step of 0.02 km)
+    # We use 10.02 as the stop value so that 10.0 is included in the array
+    d = np.arange(0.02, 10.02, 0.02)
+    PL_rural, PL_urb, PL_sub = calculate_path_losses(d)
 
     # --- 4. Plotting the results ---
     plt.figure(figsize=(10, 6))
