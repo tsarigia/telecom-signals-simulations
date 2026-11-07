@@ -90,3 +90,7 @@ The table below summarizes the step size $\Delta$, bit depth $R$, theoretical SQ
 * Every time the number of quantization levels doubles (+1 bit of resolution), the SQNR improves by exactly **$6.02\text{ dB}$**.*
 
 ---
+
+![graphs](./quant1.png)
+![graphs](./quant2.png)
+![graphs](./quant3.png)

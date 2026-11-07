@@ -49,7 +49,7 @@ def uniform_pcm(x: np.ndarray, n_levels: int):
     """Standard Linear Uniform PCM over [-1, 1]."""
     step = 2.0 / n_levels
     levels = np.linspace(-1.0 + step / 2.0, 1.0 - step / 2.0, n_levels)
-    idx = np.round((x + 1.0) / step).astype(int)
+    idx = np.floor((x + 1.0) / step).astype(int)
     idx = np.clip(idx, 0, n_levels - 1)
     x_rec = levels[idx]
     error = x - x_rec
@@ -80,7 +80,7 @@ def dpcm_pcm(x: np.ndarray, n_levels: int):
 
     for i in range(l_len):
         diff = x[i] - pred
-        idx = int(np.round((diff + 0.5) / step))
+        idx = int(np.floor((diff + 0.5) / step))
         idx = max(0, min(idx, n_levels - 1))
         dq = levels[idx]
 

@@ -51,6 +51,8 @@ $$\text{SQNR}_{\text{dB}} = 10 \log_{10} \left( \frac{\sum_{n=0}^{L-1} \vert{}x[
 
 ---
 
+![graphs](./pcm_sch.png)
+
 ## 3. Experimental Results & Telecommunication Analysis
 
 ### 3.1 Laboratory SQNR Measurements (Acoustic Speech Signal)
@@ -59,7 +61,8 @@ $$\text{SQNR}_{\text{dB}} = 10 \log_{10} \left( \frac{\sum_{n=0}^{L-1} \vert{}x[
 
  SQNR COMPARISON (N = 256)       
 
- (a) Differential PCM (DPCM):        21.18 dB
- (b) mu-Law PCM (mu = 255):          32.05 dB
- (c) A-Law PCM (alpha = 87.6):       32.14 dB
- (d) Uniform PCM (N = 256):          28.46 dB
+ (a) Differential PCM (DPCM):        21.36 dB
+ (b) mu-Law PCM (mu = 255):          37.83 dB
+ (c) A-Law PCM (alpha = 87.6):       38.10 dB
+ (d) Uniform PCM (N = 256):          34.42 dB
+

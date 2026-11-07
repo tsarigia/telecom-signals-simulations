@@ -1,18 +1,18 @@
 import unittest
 
 import numpy as np
-
 from sui import calc_sui_pathloss
 
 
+# Unit tests for the SUI pathloss model.
 class SuiPathlossTests(unittest.TestCase):
     def test_pathloss_matches_reference_values_at_five_kilometers(self):
-        expected = {
+        expected = {# Reference values from the SUI model for 5 km distance, 1900 MHz frequency, and 3 m receiver height.
             30: [165.37, 158.24, 153.63],
             80: [154.54, 146.66, 142.30],
         }
 
-        for base_station_height, terrain_values in expected.items():
+        for base_station_height, terrain_values in expected.items():# testing path loss for each base station height and terrain type
             with self.subTest(base_station_height=base_station_height):
                 actual = [
                     calc_sui_pathloss(5.0, 1900, base_station_height, 3, terrain)
