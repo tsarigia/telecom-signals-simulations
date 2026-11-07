@@ -1,7 +1,6 @@
 import unittest
 
 import numpy as np
-
 from pcm import dpcm_pcm, uniform_pcm
 
 

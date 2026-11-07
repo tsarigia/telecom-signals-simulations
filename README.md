@@ -74,3 +74,18 @@ To run the projects in this repository, you will need the following tools and li
 * The required packages are listed in `requirements.txt`. You can install them by running:
   ```bash
   pip install -r requirements.txt
+  ```
+
+## Running Tests
+
+Install `pytest` if it is not already available:
+
+```bash
+python -m pip install pytest
+```
+
+Run all repository tests from the project root:
+
+```bash
+python -m pytest -q
+```
