@@ -13,7 +13,7 @@ class CloseInModelTests(unittest.TestCase):
 
         np.testing.assert_allclose(path_losses, [107.04, 130.76], atol=0.005)
 
-    def test_path_loss_increases_with_distance(self):
+    def test_path_loss_increases_with_distance(self):# testing that path loss increases with distance for 28 GHz and PLE of 2.1
         distances = np.array([10.0, 100.0, 500.0])
 
         path_losses = calc_pl(28, distances, 2.1)

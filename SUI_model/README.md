@@ -2,6 +2,12 @@
 
 This repository contains the theoretical background, step-by-step mathematical solutions, and a Python simulation for the **Stanford University Interim (SUI)** propagation model.
 
+Run the SUI model tests from the repository root with:
+
+```bash
+python -m unittest discover -s SUI_model -p "test_*.py"
+```
+
 ## 1. Theoretical Background & Equations
 
 Developed by Stanford University for the IEEE 802.16 standard, the SUI model is used to predict path loss for frequencies above 1900 MHz in three distinct environments[cite: 1]:
@@ -88,3 +94,5 @@ The mobile phone transmits at $P_{tx} = 20\text{ dBm}$.
 
 ## 4. Python Simulation
 This repository includes a Python script (`sui_model_simulation.py`) that calculates and plots the Path Loss (dB) vs. Distance (km) for all three environments and both base station heights, for distances ranging from $0.02\text{ km}$ to $10\text{ km}$.
+
+![graphs](./sui_sch.png)
