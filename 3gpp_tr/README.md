@@ -4,7 +4,8 @@ This repository contains the mathematical solutions and a Python simulation for 
 
 ## 1. System Parameters
 
-Based on the provided case study, we evaluate an outdoor 5G system operating at $f_c = 3.5\text{ GHz}$ with a horizontal distance $d_{2D} = 500\text{ m}$[cite: 1]. The parameters are:
+Based on the provided case study, we evaluate an outdoor 5G system operating at $f_c = 3.5\text{ GHz}$ with a horizontal distance $d_{2D} = 500\text{ m}$. The parameters are:
+
 *   **Operating Frequency ($f_c$)**: 3.5 GHz[cite: 1]
 *   **Horizontal Distance ($d_{2D}$)**: 500 m[cite: 1]
 *   **Base Station Tx Power ($P_{t,BS}$)**: 46 dBm[cite: 1]
@@ -23,7 +24,7 @@ Based on the provided case study, we evaluate an outdoor 5G system operating at 
 ## 2. Analytical Solutions
 
 ### Question 1: 3D Distance ($d_{3D}$) Calculation
-The 3D distance is calculated using the Pythagorean theorem[cite: 1]:
+The 3D distance is calculated using the Pythagorean theorem:
 $$d_{3D} = \sqrt{d_{2D}^2 + (h_{BS} - h_{UT})^2}$$
 
 *   **UMa**: $d_{3D} = \sqrt{500^2 + (25 - 1.5)^2} = \sqrt{250000 + 552.25} = \mathbf{500.55\text{ m}}$
@@ -34,7 +35,7 @@ $$d_{3D} = \sqrt{d_{2D}^2 + (h_{BS} - h_{UT})^2}$$
 
 ### Question 2: Path Loss (PL) Calculation (NLOS)
 
-*Note: Since $h_{UT} = 1.5\text{ m}$, the height correction terms $(h_{UT} - 1.5)$ in UMa and UMi equations become exactly zero[cite: 1]. Also, for RMa, the correction term $3.2(\log_{10}(11.75 \times 1.5))^2 - 4.97$ approximates to $0$[cite: 1].*
+Note: Since $h_{UT} = 1.5\text{ m}$, the height correction terms $(h_{UT} - 1.5)$ in UMa and UMi equations become exactly zero[cite: 1]. Also, for RMa, the correction term $3.2(\log_{10}(11.75 \times 1.5))^2 - 4.97$ approximates to $0$.
 
 **A. Urban Macrocell (UMa):**
 $$PL_{UMa} = 13.54 + 39.08\log_{10}(500.55) + 20\log_{10}(3.5) - 0$$
@@ -76,4 +77,6 @@ $$P_{r,UL} = P_{t,UE} + G_t + G_r - PL = 23 + 0 + 0 - PL$$
 ---
 
 ## 5. Python Simulation
-This repository includes a Python script (`3gpp_38901_simulation.py`) that computes and visualizes the Path Loss ($PL$) vs. Horizontal Distance ($d_{2D}$) for all three environments[cite: 1]. The simulated distance ranges from 10 m to 2000 m with a step of 10 m[cite: 1].
+This repository includes a Python script (`3gpp_38901_simulation.py`) that computes and visualizes the Path Loss ($PL$) vs. Horizontal Distance ($d_{2D}$) for all three environments. The simulated distance ranges from 10 m to 2000 m with a step of 10 m.
+
+![graphs](./gpp.png)

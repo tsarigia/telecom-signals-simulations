@@ -38,4 +38,5 @@ Where:
 * $\mu$: The Modulation Index ($\mu = A_m / A_c$).
 * $f_m$: The Message Signal Frequency.
 
+![graphs](./amp_m.png)
 ---
